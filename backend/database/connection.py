@@ -35,22 +35,30 @@ class DatabaseManager:
         
         try:
             # Create async engine with production settings
-            self.engine = create_async_engine(
-                settings.database.url,
-                echo=settings.database.echo,
-                pool_size=settings.database.pool_size,
-                max_overflow=settings.database.max_overflow,
-                pool_timeout=settings.database.pool_timeout,
-                pool_recycle=settings.database.pool_recycle,
-                poolclass=QueuePool if not settings.is_development else NullPool,
-                # Connection arguments for PostgreSQL
-                connect_args={
+            engine_kwargs = {
+                "echo": settings.database.echo,
+                "poolclass": QueuePool if not settings.is_development else NullPool,
+                "connect_args": {
                     "server_settings": {
                         "application_name": settings.app_name,
                         "jit": "off",  # Disable JIT for better performance with short queries
                     },
                     "command_timeout": 60,
                 }
+            }
+
+            # Only add pool settings if not using NullPool
+            if not settings.is_development:
+                engine_kwargs.update({
+                    "pool_size": settings.database.pool_size,
+                    "max_overflow": settings.database.max_overflow,
+                    "pool_timeout": settings.database.pool_timeout,
+                    "pool_recycle": settings.database.pool_recycle,
+                })
+
+            self.engine = create_async_engine(
+                settings.database.url,
+                **engine_kwargs
             )
             
             # Create session factory

@@ -332,13 +332,13 @@ async def get_current_active_user(
 ) -> User:
     """
     Get current active user (additional check for user status)
-    
+
     Args:
         current_user: Current user from token
-        
+
     Returns:
         Active user object
-        
+
     Raises:
         HTTPException: If user is not active
     """
@@ -346,6 +346,28 @@ async def get_current_active_user(
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Inactive user"
+        )
+    return current_user
+
+async def get_current_admin_user(
+    current_user: User = Depends(get_current_user)
+) -> User:
+    """
+    Get current user and verify admin role
+
+    Args:
+        current_user: Current user from token
+
+    Returns:
+        Admin user object
+
+    Raises:
+        HTTPException: If user is not admin
+    """
+    if current_user.role != "admin":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin access required"
         )
     
     return current_user
