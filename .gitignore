@@ -46,10 +46,11 @@ testing/
 demo/
 demos/
 
-# Markdown files - exclude all except .kiro/specs/advanced-legal-kb-rag
+# Markdown files - exclude all except .kiro/specs/advanced-legal-kb-rag and DEPLOYMENT_GUIDE.md
 *.md
 !.kiro/specs/advanced-legal-kb-rag/*.md
 !.kiro/specs/advanced-legal-kb-rag/**/*.md
+!DEPLOYMENT_GUIDE.md
 
 # Build & IDE
 .DS_Store
