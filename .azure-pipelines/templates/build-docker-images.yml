@@ -1,0 +1,158 @@
+# Template for building and pushing Docker images
+
+parameters:
+  - name: containerRegistry
+    type: string
+  - name: dockerRegistryServiceConnection
+    type: string
+  - name: imageRepository
+    type: string
+  - name: tag
+    type: string
+
+steps:
+  # Download build artifacts
+  - task: DownloadBuildArtifacts@0
+    displayName: 'Download backend artifacts'
+    inputs:
+      buildType: 'current'
+      artifactName: 'backend'
+      downloadPath: '$(System.ArtifactsDirectory)'
+
+  - task: DownloadBuildArtifacts@0
+    displayName: 'Download frontend artifacts'
+    inputs:
+      buildType: 'current'
+      artifactName: 'frontend-source'
+      downloadPath: '$(System.ArtifactsDirectory)'
+
+  - task: DownloadBuildArtifacts@0
+    displayName: 'Download frontend build'
+    inputs:
+      buildType: 'current'
+      artifactName: 'frontend-build'
+      downloadPath: '$(System.ArtifactsDirectory)'
+
+  # Prepare build context
+  - script: |
+      # Copy backend files
+      cp -r $(System.ArtifactsDirectory)/backend ./backend-build
+      
+      # Copy frontend source files
+      cp -r $(System.ArtifactsDirectory)/frontend-source ./frontend-build
+      
+      # Copy frontend build files to frontend source
+      cp -r $(System.ArtifactsDirectory)/frontend-build/* ./frontend-build/dist/
+    displayName: 'Prepare build context'
+
+  # Build and push backend Docker image
+  - task: Docker@2
+    displayName: 'Build and push backend image'
+    inputs:
+      containerRegistry: '${{ parameters.dockerRegistryServiceConnection }}'
+      repository: '${{ parameters.imageRepository }}/backend'
+      command: 'buildAndPush'
+      Dockerfile: 'backend-build/Dockerfile'
+      buildContext: 'backend-build'
+      tags: |
+        ${{ parameters.tag }}
+        latest
+      arguments: |
+        --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+        --build-arg VERSION=${{ parameters.tag }}
+        --build-arg VCS_REF=$(Build.SourceVersion)
+
+  # Build and push frontend Docker image
+  - task: Docker@2
+    displayName: 'Build and push frontend image'
+    inputs:
+      containerRegistry: '${{ parameters.dockerRegistryServiceConnection }}'
+      repository: '${{ parameters.imageRepository }}/frontend'
+      command: 'buildAndPush'
+      Dockerfile: 'frontend-build/Dockerfile'
+      buildContext: 'frontend-build'
+      tags: |
+        ${{ parameters.tag }}
+        latest
+      arguments: |
+        --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+        --build-arg VERSION=${{ parameters.tag }}
+        --build-arg VCS_REF=$(Build.SourceVersion)
+
+  # Scan Docker images for vulnerabilities
+  - script: |
+      # Install Trivy
+      sudo apt-get update
+      sudo apt-get install wget apt-transport-https gnupg lsb-release
+      wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+      echo "deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+      sudo apt-get update
+      sudo apt-get install trivy
+      
+      # Scan backend image
+      trivy image --format json --output backend-image-scan.json ${{ parameters.containerRegistry }}/${{ parameters.imageRepository }}/backend:${{ parameters.tag }} || true
+      trivy image --format table --output backend-image-scan.txt ${{ parameters.containerRegistry }}/${{ parameters.imageRepository }}/backend:${{ parameters.tag }} || true
+      
+      # Scan frontend image
+      trivy image --format json --output frontend-image-scan.json ${{ parameters.containerRegistry }}/${{ parameters.imageRepository }}/frontend:${{ parameters.tag }} || true
+      trivy image --format table --output frontend-image-scan.txt ${{ parameters.containerRegistry }}/${{ parameters.imageRepository }}/frontend:${{ parameters.tag }} || true
+    displayName: 'Scan Docker images'
+    continueOnError: true
+
+  # Test Docker images
+  - script: |
+      # Test backend image
+      docker run --rm ${{ parameters.containerRegistry }}/${{ parameters.imageRepository }}/backend:${{ parameters.tag }} python -c "import main; print('Backend image test passed')"
+      
+      # Test frontend image
+      docker run --rm -d --name test-frontend ${{ parameters.containerRegistry }}/${{ parameters.imageRepository }}/frontend:${{ parameters.tag }}
+      sleep 10
+      if docker ps | grep -q test-frontend; then
+        echo "Frontend image test passed"
+        docker stop test-frontend
+      else
+        echo "Frontend image test failed"
+        exit 1
+      fi
+    displayName: 'Test Docker images'
+
+  # Generate image manifest
+  - script: |
+      cat > image-manifest.json << EOF
+      {
+        "build_id": "${{ parameters.tag }}",
+        "build_date": "$(date -u +'%Y-%m-%dT%H:%M:%SZ')",
+        "vcs_ref": "$(Build.SourceVersion)",
+        "images": {
+          "backend": {
+            "repository": "${{ parameters.containerRegistry }}/${{ parameters.imageRepository }}/backend",
+            "tag": "${{ parameters.tag }}",
+            "digest": "$(docker inspect --format='{{index .RepoDigests 0}}' ${{ parameters.containerRegistry }}/${{ parameters.imageRepository }}/backend:${{ parameters.tag }} | cut -d'@' -f2)"
+          },
+          "frontend": {
+            "repository": "${{ parameters.containerRegistry }}/${{ parameters.imageRepository }}/frontend",
+            "tag": "${{ parameters.tag }}",
+            "digest": "$(docker inspect --format='{{index .RepoDigests 0}}' ${{ parameters.containerRegistry }}/${{ parameters.imageRepository }}/frontend:${{ parameters.tag }} | cut -d'@' -f2)"
+          }
+        }
+      }
+      EOF
+    displayName: 'Generate image manifest'
+
+  # Copy Docker artifacts
+  - task: CopyFiles@2
+    displayName: 'Copy Docker artifacts'
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)'
+      Contents: |
+        *-image-scan.*
+        image-manifest.json
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/docker-artifacts'
+
+  # Publish Docker artifacts
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Docker artifacts'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/docker-artifacts'
+      ArtifactName: 'docker-artifacts'
+      publishLocation: 'Container'

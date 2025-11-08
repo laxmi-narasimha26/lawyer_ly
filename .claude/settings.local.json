@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(docker:*)",
+      "Bash(echo $env:OPENAI_API_KEY)",
+      "Bash(powershell -Command:*)",
+      "Bash(powershell -ExecutionPolicy Bypass -File \".\\scripts\\run_local_demo.ps1\")",
+      "Bash(Start-Sleep -Seconds 30)",
+      "Bash(timeout:*)",
+      "Bash(ping:*)",
+      "Bash(tree:*)",
+      "Bash(find:*)",
+      "Bash(python:*)",
+      "Bash(curl:*)",
+      "Bash(pip install:*)",
+      "Bash(export DATABASE_URL:*)",
+      "Bash(export REDIS_URL=\"redis://localhost:6379\")",
+      "Bash(export OPENAI_API_KEY=\"$OPENAI_API_KEY\")",
+      "Bash(export PYTHONIOENCODING=utf-8)",
+      "Bash(npm install:*)",
+      "Bash(npm run dev:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(git init:*)",
+      "Bash(git config:*)",
+      "Bash(git add:*)",
+      "Bash(git rm:*)",
+      "Bash(git reset:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

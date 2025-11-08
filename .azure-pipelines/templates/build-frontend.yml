@@ -1,0 +1,81 @@
+# Template for building the frontend application
+
+parameters:
+  - name: buildConfiguration
+    type: string
+    default: 'Release'
+  - name: nodeVersion
+    type: string
+    default: '18.x'
+
+steps:
+  - task: NodeTool@0
+    displayName: 'Use Node.js $(nodeVersion)'
+    inputs:
+      versionSpec: '${{ parameters.nodeVersion }}'
+
+  - script: |
+      cd frontend
+      npm ci
+    displayName: 'Install Node.js dependencies'
+
+  - script: |
+      cd frontend
+      npm run lint
+    displayName: 'Run ESLint'
+    continueOnError: true
+
+  - script: |
+      cd frontend
+      npm run build
+    displayName: 'Build frontend application'
+    env:
+      NODE_ENV: production
+      VITE_API_BASE_URL: '/api'
+      VITE_APP_NAME: 'Indian Legal AI Assistant'
+
+  - script: |
+      cd frontend
+      npm audit --audit-level=high
+    displayName: 'Run security audit'
+    continueOnError: true
+
+  - task: PublishTestResults@2
+    displayName: 'Publish lint results'
+    condition: always()
+    inputs:
+      testResultsFiles: '**/lint-results.xml'
+      testRunTitle: 'Frontend Lint Results'
+      failTaskOnFailedTests: false
+
+  - task: CopyFiles@2
+    displayName: 'Copy frontend build to staging'
+    inputs:
+      SourceFolder: 'frontend/dist'
+      Contents: '**/*'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/frontend'
+
+  - task: CopyFiles@2
+    displayName: 'Copy frontend source to staging'
+    inputs:
+      SourceFolder: 'frontend'
+      Contents: |
+        package*.json
+        Dockerfile
+        nginx.conf
+        .dockerignore
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/frontend-source'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish frontend build artifacts'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/frontend'
+      ArtifactName: 'frontend-build'
+      publishLocation: 'Container'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish frontend source artifacts'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/frontend-source'
+      ArtifactName: 'frontend-source'
+      publishLocation: 'Container'

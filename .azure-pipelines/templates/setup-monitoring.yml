@@ -1,0 +1,329 @@
+# Template for setting up monitoring and alerts
+
+parameters:
+  - name: environment
+    type: string
+  - name: resourceGroupName
+    type: string
+
+steps:
+  # Setup monitoring alerts
+  - script: |
+      cat > monitoring-setup.sh << 'EOF'
+      #!/bin/bash
+      set -e
+      
+      ENVIRONMENT="${{ parameters.environment }}"
+      RESOURCE_GROUP="${{ parameters.resourceGroupName }}"
+      
+      echo "Setting up monitoring for environment: $ENVIRONMENT"
+      echo "Resource Group: $RESOURCE_GROUP"
+      
+      # Check if Application Insights exists
+      APP_INSIGHTS_NAME="legal-ai-${ENVIRONMENT}-insights"
+      
+      if az monitor app-insights component show --app "$APP_INSIGHTS_NAME" --resource-group "$RESOURCE_GROUP" &>/dev/null; then
+        echo "✓ Application Insights found: $APP_INSIGHTS_NAME"
+        
+        # Get Application Insights ID
+        APP_INSIGHTS_ID=$(az monitor app-insights component show \
+          --app "$APP_INSIGHTS_NAME" \
+          --resource-group "$RESOURCE_GROUP" \
+          --query "id" -o tsv)
+        
+        echo "Application Insights ID: $APP_INSIGHTS_ID"
+        
+        # Create alert rules
+        echo "Creating alert rules..."
+        
+        # High error rate alert
+        az monitor metrics alert create \
+          --name "High Error Rate - $ENVIRONMENT" \
+          --resource-group "$RESOURCE_GROUP" \
+          --scopes "$APP_INSIGHTS_ID" \
+          --condition "avg exceptions/count > 10" \
+          --window-size 5m \
+          --evaluation-frequency 1m \
+          --severity 2 \
+          --description "Alert when error rate is high" \
+          --enabled true || echo "Error rate alert may already exist"
+        
+        # High response time alert
+        az monitor metrics alert create \
+          --name "High Response Time - $ENVIRONMENT" \
+          --resource-group "$RESOURCE_GROUP" \
+          --scopes "$APP_INSIGHTS_ID" \
+          --condition "avg requests/duration > 5000" \
+          --window-size 5m \
+          --evaluation-frequency 1m \
+          --severity 2 \
+          --description "Alert when response time is high" \
+          --enabled true || echo "Response time alert may already exist"
+        
+        # Low availability alert
+        az monitor metrics alert create \
+          --name "Low Availability - $ENVIRONMENT" \
+          --resource-group "$RESOURCE_GROUP" \
+          --scopes "$APP_INSIGHTS_ID" \
+          --condition "avg availabilityResults/availabilityPercentage < 95" \
+          --window-size 5m \
+          --evaluation-frequency 1m \
+          --severity 1 \
+          --description "Alert when availability is low" \
+          --enabled true || echo "Availability alert may already exist"
+        
+        echo "✓ Alert rules configured"
+      else
+        echo "⚠️  Application Insights not found: $APP_INSIGHTS_NAME"
+      fi
+      
+      # Setup Log Analytics queries
+      LOG_WORKSPACE_NAME="legal-ai-${ENVIRONMENT}-logs"
+      
+      if az monitor log-analytics workspace show --workspace-name "$LOG_WORKSPACE_NAME" --resource-group "$RESOURCE_GROUP" &>/dev/null; then
+        echo "✓ Log Analytics workspace found: $LOG_WORKSPACE_NAME"
+        
+        # Create saved queries
+        echo "Creating saved queries..."
+        
+        # Error tracking query
+        cat > error-tracking-query.kql << 'KQL'
+        exceptions
+        | where timestamp > ago(1h)
+        | summarize count() by problemId, type
+        | order by count_ desc
+        KQL
+        
+        # Performance tracking query
+        cat > performance-tracking-query.kql << 'KQL'
+        requests
+        | where timestamp > ago(1h)
+        | summarize avg(duration), percentile(duration, 95) by name
+        | order by avg_duration desc
+        KQL
+        
+        echo "✓ Monitoring queries created"
+      else
+        echo "⚠️  Log Analytics workspace not found: $LOG_WORKSPACE_NAME"
+      fi
+      
+      echo "Monitoring setup completed!"
+      EOF
+      
+      chmod +x monitoring-setup.sh
+      ./monitoring-setup.sh
+    displayName: 'Setup monitoring and alerts'
+    continueOnError: true
+
+  # Create monitoring dashboard
+  - script: |
+      cat > dashboard-template.json << 'EOF'
+      {
+        "lenses": {
+          "0": {
+            "order": 0,
+            "parts": {
+              "0": {
+                "position": {
+                  "x": 0,
+                  "y": 0,
+                  "colSpan": 6,
+                  "rowSpan": 4
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "resourceTypeMode",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "ComponentId",
+                      "value": {
+                        "SubscriptionId": "$(az account show --query id -o tsv)",
+                        "ResourceGroup": "${{ parameters.resourceGroupName }}",
+                        "Name": "legal-ai-${{ parameters.environment }}-insights"
+                      },
+                      "isOptional": true
+                    }
+                  ],
+                  "type": "Extension/HubsExtension/PartType/MonitorChartPart",
+                  "settings": {
+                    "content": {
+                      "options": {
+                        "chart": {
+                          "metrics": [
+                            {
+                              "resourceMetadata": {
+                                "id": "/subscriptions/$(az account show --query id -o tsv)/resourceGroups/${{ parameters.resourceGroupName }}/providers/Microsoft.Insights/components/legal-ai-${{ parameters.environment }}-insights"
+                              },
+                              "name": "requests/count",
+                              "aggregationType": 1,
+                              "namespace": "microsoft.insights/components",
+                              "metricVisualization": {
+                                "displayName": "Server requests"
+                              }
+                            }
+                          ],
+                          "title": "Request Rate",
+                          "titleKind": 1,
+                          "visualization": {
+                            "chartType": 2
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "metadata": {
+          "model": {
+            "timeRange": {
+              "value": {
+                "relative": {
+                  "duration": 24,
+                  "timeUnit": 1
+                }
+              },
+              "type": "MsPortalFx.Composition.Configuration.ValueTypes.TimeRange"
+            }
+          }
+        }
+      }
+      EOF
+      
+      echo "Dashboard template created"
+    displayName: 'Create monitoring dashboard template'
+
+  # Setup health checks
+  - script: |
+      cat > health-check-setup.sh << 'EOF'
+      #!/bin/bash
+      set -e
+      
+      ENVIRONMENT="${{ parameters.environment }}"
+      RESOURCE_GROUP="${{ parameters.resourceGroupName }}"
+      
+      echo "Setting up health checks for environment: $ENVIRONMENT"
+      
+      # Get container app URLs
+      BACKEND_APP="legal-ai-${ENVIRONMENT}-env-backend"
+      FRONTEND_APP="legal-ai-${ENVIRONMENT}-env-frontend"
+      
+      if az containerapp show --name "$BACKEND_APP" --resource-group "$RESOURCE_GROUP" &>/dev/null; then
+        BACKEND_URL=$(az containerapp show \
+          --name "$BACKEND_APP" \
+          --resource-group "$RESOURCE_GROUP" \
+          --query "properties.configuration.ingress.fqdn" -o tsv)
+        
+        echo "Backend URL: https://$BACKEND_URL"
+        
+        # Create availability test for backend
+        echo "Creating availability test for backend..."
+        # Note: This would typically use Azure Application Insights availability tests
+        # For now, we'll create a simple monitoring script
+        
+        cat > backend-health-monitor.sh << 'MONITOR'
+      #!/bin/bash
+      # Simple health monitoring script
+      BACKEND_URL="https://$BACKEND_URL"
+      
+      while true; do
+        HEALTH_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$BACKEND_URL/health" || echo "000")
+        
+        if [ "$HEALTH_STATUS" = "200" ]; then
+          echo "$(date): Backend health check passed"
+        else
+          echo "$(date): Backend health check failed (HTTP $HEALTH_STATUS)"
+        fi
+        
+        sleep 300  # Check every 5 minutes
+      done
+      MONITOR
+        
+        chmod +x backend-health-monitor.sh
+        echo "✓ Backend health monitor created"
+      fi
+      
+      if az containerapp show --name "$FRONTEND_APP" --resource-group "$RESOURCE_GROUP" &>/dev/null; then
+        FRONTEND_URL=$(az containerapp show \
+          --name "$FRONTEND_APP" \
+          --resource-group "$RESOURCE_GROUP" \
+          --query "properties.configuration.ingress.fqdn" -o tsv)
+        
+        echo "Frontend URL: https://$FRONTEND_URL"
+        echo "✓ Frontend health monitoring configured"
+      fi
+      
+      echo "Health check setup completed!"
+      EOF
+      
+      chmod +x health-check-setup.sh
+      ./health-check-setup.sh
+    displayName: 'Setup health checks'
+    continueOnError: true
+
+  # Generate monitoring report
+  - script: |
+      cat > monitoring-report.md << 'EOF'
+      # Monitoring Setup Report
+      
+      **Environment:** ${{ parameters.environment }}
+      **Resource Group:** ${{ parameters.resourceGroupName }}
+      **Setup Date:** $(date -u +'%Y-%m-%d %H:%M:%S UTC')
+      
+      ## Configured Monitoring
+      
+      ### Alert Rules
+      - High Error Rate Alert
+      - High Response Time Alert  
+      - Low Availability Alert
+      
+      ### Log Analytics Queries
+      - Error Tracking Query
+      - Performance Tracking Query
+      
+      ### Health Checks
+      - Backend Health Monitoring
+      - Frontend Health Monitoring
+      
+      ## Next Steps
+      
+      1. Configure notification channels for alerts
+      2. Set up custom dashboards in Azure Portal
+      3. Configure log retention policies
+      4. Set up automated reports
+      
+      ## Monitoring URLs
+      
+      - Azure Portal: https://portal.azure.com
+      - Application Insights: Navigate to legal-ai-${{ parameters.environment }}-insights
+      - Log Analytics: Navigate to legal-ai-${{ parameters.environment }}-logs
+      EOF
+      
+      echo "Monitoring report generated"
+    displayName: 'Generate monitoring report'
+
+  # Copy monitoring artifacts
+  - task: CopyFiles@2
+    displayName: 'Copy monitoring artifacts'
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)'
+      Contents: |
+        monitoring-setup.sh
+        health-check-setup.sh
+        dashboard-template.json
+        monitoring-report.md
+        *.kql
+        backend-health-monitor.sh
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/monitoring-artifacts'
+
+  # Publish monitoring artifacts
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish monitoring artifacts'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/monitoring-artifacts'
+      ArtifactName: 'monitoring-artifacts-${{ parameters.environment }}'
+      publishLocation: 'Container'

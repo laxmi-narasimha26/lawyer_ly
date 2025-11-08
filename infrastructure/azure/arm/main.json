@@ -1,0 +1,374 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "description": "Main ARM template for Indian Legal AI Assistant infrastructure",
+    "author": "Indian Legal AI Team"
+  },
+  "parameters": {
+    "projectName": {
+      "type": "string",
+      "defaultValue": "legal-ai",
+      "metadata": {
+        "description": "Name of the project, used as prefix for resources"
+      }
+    },
+    "environment": {
+      "type": "string",
+      "defaultValue": "dev",
+      "allowedValues": [
+        "dev",
+        "staging",
+        "prod"
+      ],
+      "metadata": {
+        "description": "Environment name"
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Location for all resources"
+      }
+    },
+    "administratorLogin": {
+      "type": "string",
+      "metadata": {
+        "description": "Administrator login for PostgreSQL server"
+      }
+    },
+    "administratorLoginPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Administrator password for PostgreSQL server"
+      }
+    },
+    "openAiApiKey": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Azure OpenAI API key"
+      }
+    },
+    "openAiEndpoint": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure OpenAI endpoint URL"
+      }
+    },
+    "containerImageTag": {
+      "type": "string",
+      "defaultValue": "latest",
+      "metadata": {
+        "description": "Container image tag to deploy"
+      }
+    },
+    "enableMonitoring": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Enable Application Insights and monitoring"
+      }
+    },
+    "enableAutoScale": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Enable auto-scaling for container apps"
+      }
+    }
+  },
+  "variables": {
+    "resourcePrefix": "[concat(parameters('projectName'), '-', parameters('environment'))]",
+    "containerRegistryName": "[concat(replace(variables('resourcePrefix'), '-', ''), 'acr')]",
+    "keyVaultName": "[concat(variables('resourcePrefix'), '-kv')]",
+    "storageAccountName": "[concat(replace(variables('resourcePrefix'), '-', ''), 'storage')]",
+    "postgreSqlServerName": "[concat(variables('resourcePrefix'), '-postgres')]",
+    "redisCacheName": "[concat(variables('resourcePrefix'), '-redis')]",
+    "containerAppEnvironmentName": "[concat(variables('resourcePrefix'), '-env')]",
+    "logAnalyticsWorkspaceName": "[concat(variables('resourcePrefix'), '-logs')]",
+    "applicationInsightsName": "[concat(variables('resourcePrefix'), '-insights')]",
+    "virtualNetworkName": "[concat(variables('resourcePrefix'), '-vnet')]",
+    "subnetName": "container-apps-subnet",
+    "privateEndpointSubnetName": "private-endpoints-subnet"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "networkDeployment",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[uri(deployment().properties.templateLink.uri, 'network.json')]"
+        },
+        "parameters": {
+          "virtualNetworkName": {
+            "value": "[variables('virtualNetworkName')]"
+          },
+          "subnetName": {
+            "value": "[variables('subnetName')]"
+          },
+          "privateEndpointSubnetName": {
+            "value": "[variables('privateEndpointSubnetName')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "monitoringDeployment",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[uri(deployment().properties.templateLink.uri, 'monitoring.json')]"
+        },
+        "parameters": {
+          "logAnalyticsWorkspaceName": {
+            "value": "[variables('logAnalyticsWorkspaceName')]"
+          },
+          "applicationInsightsName": {
+            "value": "[variables('applicationInsightsName')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "enableMonitoring": {
+            "value": "[parameters('enableMonitoring')]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "securityDeployment",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[uri(deployment().properties.templateLink.uri, 'security.json')]"
+        },
+        "parameters": {
+          "keyVaultName": {
+            "value": "[variables('keyVaultName')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "openAiApiKey": {
+            "value": "[parameters('openAiApiKey')]"
+          },
+          "administratorLoginPassword": {
+            "value": "[parameters('administratorLoginPassword')]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "storageDeployment",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[uri(deployment().properties.templateLink.uri, 'storage.json')]"
+        },
+        "parameters": {
+          "storageAccountName": {
+            "value": "[variables('storageAccountName')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "virtualNetworkId": {
+            "value": "[reference('networkDeployment').outputs.virtualNetworkId.value]"
+          },
+          "privateEndpointSubnetId": {
+            "value": "[reference('networkDeployment').outputs.privateEndpointSubnetId.value]"
+          }
+        }
+      },
+      "dependsOn": [
+        "networkDeployment"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "databaseDeployment",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[uri(deployment().properties.templateLink.uri, 'database.json')]"
+        },
+        "parameters": {
+          "postgreSqlServerName": {
+            "value": "[variables('postgreSqlServerName')]"
+          },
+          "administratorLogin": {
+            "value": "[parameters('administratorLogin')]"
+          },
+          "administratorLoginPassword": {
+            "value": "[parameters('administratorLoginPassword')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "environment": {
+            "value": "[parameters('environment')]"
+          },
+          "virtualNetworkId": {
+            "value": "[reference('networkDeployment').outputs.virtualNetworkId.value]"
+          },
+          "privateEndpointSubnetId": {
+            "value": "[reference('networkDeployment').outputs.privateEndpointSubnetId.value]"
+          }
+        }
+      },
+      "dependsOn": [
+        "networkDeployment"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "cacheDeployment",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[uri(deployment().properties.templateLink.uri, 'cache.json')]"
+        },
+        "parameters": {
+          "redisCacheName": {
+            "value": "[variables('redisCacheName')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "environment": {
+            "value": "[parameters('environment')]"
+          },
+          "virtualNetworkId": {
+            "value": "[reference('networkDeployment').outputs.virtualNetworkId.value]"
+          },
+          "privateEndpointSubnetId": {
+            "value": "[reference('networkDeployment').outputs.privateEndpointSubnetId.value]"
+          }
+        }
+      },
+      "dependsOn": [
+        "networkDeployment"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "containerRegistryDeployment",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[uri(deployment().properties.templateLink.uri, 'container-registry.json')]"
+        },
+        "parameters": {
+          "containerRegistryName": {
+            "value": "[variables('containerRegistryName')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "containerAppsDeployment",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[uri(deployment().properties.templateLink.uri, 'container-apps.json')]"
+        },
+        "parameters": {
+          "containerAppEnvironmentName": {
+            "value": "[variables('containerAppEnvironmentName')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "logAnalyticsWorkspaceId": {
+            "value": "[reference('monitoringDeployment').outputs.logAnalyticsWorkspaceId.value]"
+          },
+          "applicationInsightsConnectionString": {
+            "value": "[reference('monitoringDeployment').outputs.applicationInsightsConnectionString.value]"
+          },
+          "subnetId": {
+            "value": "[reference('networkDeployment').outputs.subnetId.value]"
+          },
+          "containerRegistryServer": {
+            "value": "[reference('containerRegistryDeployment').outputs.containerRegistryServer.value]"
+          },
+          "containerImageTag": {
+            "value": "[parameters('containerImageTag')]"
+          },
+          "keyVaultName": {
+            "value": "[variables('keyVaultName')]"
+          },
+          "storageAccountName": {
+            "value": "[variables('storageAccountName')]"
+          },
+          "postgreSqlServerName": {
+            "value": "[variables('postgreSqlServerName')]"
+          },
+          "redisCacheName": {
+            "value": "[variables('redisCacheName')]"
+          },
+          "openAiEndpoint": {
+            "value": "[parameters('openAiEndpoint')]"
+          },
+          "enableAutoScale": {
+            "value": "[parameters('enableAutoScale')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "networkDeployment",
+        "monitoringDeployment",
+        "securityDeployment",
+        "storageDeployment",
+        "databaseDeployment",
+        "cacheDeployment",
+        "containerRegistryDeployment"
+      ]
+    }
+  ],
+  "outputs": {
+    "resourceGroupName": {
+      "type": "string",
+      "value": "[resourceGroup().name]"
+    },
+    "containerAppUrl": {
+      "type": "string",
+      "value": "[reference('containerAppsDeployment').outputs.frontendUrl.value]"
+    },
+    "apiUrl": {
+      "type": "string",
+      "value": "[reference('containerAppsDeployment').outputs.backendUrl.value]"
+    },
+    "keyVaultName": {
+      "type": "string",
+      "value": "[variables('keyVaultName')]"
+    },
+    "storageAccountName": {
+      "type": "string",
+      "value": "[variables('storageAccountName')]"
+    },
+    "containerRegistryName": {
+      "type": "string",
+      "value": "[variables('containerRegistryName')]"
+    }
+  }
+}

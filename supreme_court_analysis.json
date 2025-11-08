@@ -1,0 +1,360 @@
+{
+  "year": 2023,
+  "total_judgments": 854,
+  "sample_judgments": [
+    {
+      "text_length": 54774,
+      "word_count": 9523,
+      "paragraph_count": 1,
+      "has_legal_sections": true,
+      "section_markers": [
+        {
+          "type": "JUDGMENT",
+          "count": 4,
+          "pattern": "\\bJUDGMENT\\b"
+        },
+        {
+          "type": "ORDER",
+          "count": 9,
+          "pattern": "\\bORDER\\b"
+        },
+        {
+          "type": "HELD",
+          "count": 2,
+          "pattern": "\\bHELD\\s*:"
+        },
+        {
+          "type": "NUMBERED_SECTION",
+          "count": 59,
+          "pattern": "\\d+\\.\\s+"
+        },
+        {
+          "type": "LETTERED_SUBSECTION",
+          "count": 42,
+          "pattern": "\\([a-z]\\)\\s+"
+        }
+      ],
+      "legal_elements": {
+        "case_citations": 0,
+        "section_references": 93,
+        "article_references": 1,
+        "act_references": 16,
+        "court_references": 15,
+        "judge_names": 0,
+        "legal_maxims": 0
+      },
+      "metadata_fields": [
+        "raw_html",
+        "path",
+        "citation_year",
+        "nc_display",
+        "scraped_at"
+      ],
+      "pdf_file": "2023_7_322_346_EN.pdf",
+      "metadata_file": "2023_7_322_346.json"
+    },
+    {
+      "text_length": 56848,
+      "word_count": 9552,
+      "paragraph_count": 1,
+      "has_legal_sections": true,
+      "section_markers": [
+        {
+          "type": "JUDGMENT",
+          "count": 5,
+          "pattern": "\\bJUDGMENT\\b"
+        },
+        {
+          "type": "ORDER",
+          "count": 55,
+          "pattern": "\\bORDER\\b"
+        },
+        {
+          "type": "HELD",
+          "count": 2,
+          "pattern": "\\bHELD\\s*:"
+        },
+        {
+          "type": "NUMBERED_SECTION",
+          "count": 140,
+          "pattern": "\\d+\\.\\s+"
+        },
+        {
+          "type": "LETTERED_SUBSECTION",
+          "count": 1,
+          "pattern": "\\([a-z]\\)\\s+"
+        }
+      ],
+      "legal_elements": {
+        "case_citations": 0,
+        "section_references": 0,
+        "article_references": 0,
+        "act_references": 0,
+        "court_references": 28,
+        "judge_names": 0,
+        "legal_maxims": 0
+      },
+      "metadata_fields": [
+        "raw_html",
+        "path",
+        "citation_year",
+        "nc_display",
+        "scraped_at"
+      ],
+      "pdf_file": "2023_16_888_916_EN.pdf",
+      "metadata_file": "2023_16_888_916.json"
+    },
+    {
+      "text_length": 133665,
+      "word_count": 22430,
+      "paragraph_count": 1,
+      "has_legal_sections": true,
+      "section_markers": [
+        {
+          "type": "JUDGMENT",
+          "count": 16,
+          "pattern": "\\bJUDGMENT\\b"
+        },
+        {
+          "type": "ORDER",
+          "count": 50,
+          "pattern": "\\bORDER\\b"
+        },
+        {
+          "type": "HELD",
+          "count": 5,
+          "pattern": "\\bHELD\\s*:"
+        },
+        {
+          "type": "NUMBERED_SECTION",
+          "count": 242,
+          "pattern": "\\d+\\.\\s+"
+        },
+        {
+          "type": "LETTERED_SUBSECTION",
+          "count": 31,
+          "pattern": "\\([a-z]\\)\\s+"
+        }
+      ],
+      "legal_elements": {
+        "case_citations": 0,
+        "section_references": 1,
+        "article_references": 10,
+        "act_references": 2,
+        "court_references": 101,
+        "judge_names": 9,
+        "legal_maxims": 0
+      },
+      "metadata_fields": [
+        "raw_html",
+        "path",
+        "citation_year",
+        "nc_display",
+        "scraped_at"
+      ],
+      "pdf_file": "2023_7_26_84_EN.pdf",
+      "metadata_file": "2023_7_26_84.json"
+    },
+    {
+      "text_length": 30650,
+      "word_count": 5413,
+      "paragraph_count": 1,
+      "has_legal_sections": true,
+      "section_markers": [
+        {
+          "type": "JUDGMENT",
+          "count": 14,
+          "pattern": "\\bJUDGMENT\\b"
+        },
+        {
+          "type": "ORDER",
+          "count": 7,
+          "pattern": "\\bORDER\\b"
+        },
+        {
+          "type": "HELD",
+          "count": 3,
+          "pattern": "\\bHELD\\s*:"
+        },
+        {
+          "type": "FACTS",
+          "count": 1,
+          "pattern": "\\bFACTS\\s*:"
+        },
+        {
+          "type": "CONCLUSION",
+          "count": 1,
+          "pattern": "\\bCONCLUSION\\s*:"
+        },
+        {
+          "type": "NUMBERED_SECTION",
+          "count": 49,
+          "pattern": "\\d+\\.\\s+"
+        },
+        {
+          "type": "LETTERED_SUBSECTION",
+          "count": 6,
+          "pattern": "\\([a-z]\\)\\s+"
+        }
+      ],
+      "legal_elements": {
+        "case_citations": 1,
+        "section_references": 1,
+        "article_references": 0,
+        "act_references": 0,
+        "court_references": 15,
+        "judge_names": 2,
+        "legal_maxims": 0
+      },
+      "metadata_fields": [
+        "raw_html",
+        "path",
+        "citation_year",
+        "nc_display",
+        "scraped_at"
+      ],
+      "pdf_file": "2023_2_312_325_EN.pdf",
+      "metadata_file": "2023_2_312_325.json"
+    },
+    {
+      "text_length": 24500,
+      "word_count": 3868,
+      "paragraph_count": 1,
+      "has_legal_sections": true,
+      "section_markers": [
+        {
+          "type": "JUDGMENT",
+          "count": 7,
+          "pattern": "\\bJUDGMENT\\b"
+        },
+        {
+          "type": "ORDER",
+          "count": 30,
+          "pattern": "\\bORDER\\b"
+        },
+        {
+          "type": "HELD",
+          "count": 1,
+          "pattern": "\\bHELD\\s*:"
+        },
+        {
+          "type": "NUMBERED_SECTION",
+          "count": 24,
+          "pattern": "\\d+\\.\\s+"
+        }
+      ],
+      "legal_elements": {
+        "case_citations": 0,
+        "section_references": 0,
+        "article_references": 0,
+        "act_references": 0,
+        "court_references": 16,
+        "judge_names": 1,
+        "legal_maxims": 0
+      },
+      "metadata_fields": [
+        "raw_html",
+        "path",
+        "citation_year",
+        "nc_display",
+        "scraped_at"
+      ],
+      "pdf_file": "2023_16_1535_1546_EN.pdf",
+      "metadata_file": "2023_16_1535_1546.json"
+    }
+  ],
+  "metadata_structure": {
+    "total_unique_fields": 5,
+    "common_fields": [
+      "raw_html",
+      "path",
+      "citation_year",
+      "nc_display",
+      "scraped_at"
+    ],
+    "field_frequency": {
+      "raw_html": 5,
+      "path": 5,
+      "citation_year": 5,
+      "nc_display": 5,
+      "scraped_at": 5
+    },
+    "all_fields": [
+      "citation_year",
+      "nc_display",
+      "path",
+      "raw_html",
+      "scraped_at"
+    ]
+  },
+  "text_characteristics": {
+    "avg_text_length": 60087.4,
+    "min_text_length": 24500,
+    "max_text_length": 133665,
+    "avg_word_count": 10157.2,
+    "avg_paragraph_count": 1.0,
+    "estimated_pages": 30.0437,
+    "has_legal_structure_pct": 100.0
+  },
+  "legal_structure_patterns": [
+    {
+      "pattern_type": "JUDGMENT",
+      "frequency": 1.0,
+      "avg_occurrences": 9.2,
+      "chunking_potential": "high"
+    },
+    {
+      "pattern_type": "ORDER",
+      "frequency": 1.0,
+      "avg_occurrences": 30.2,
+      "chunking_potential": "high"
+    },
+    {
+      "pattern_type": "HELD",
+      "frequency": 1.0,
+      "avg_occurrences": 2.6,
+      "chunking_potential": "high"
+    },
+    {
+      "pattern_type": "NUMBERED_SECTION",
+      "frequency": 1.0,
+      "avg_occurrences": 102.8,
+      "chunking_potential": "high"
+    },
+    {
+      "pattern_type": "LETTERED_SUBSECTION",
+      "frequency": 0.8,
+      "avg_occurrences": 20.0,
+      "chunking_potential": "high"
+    },
+    {
+      "pattern_type": "FACTS",
+      "frequency": 0.2,
+      "avg_occurrences": 1.0,
+      "chunking_potential": "medium"
+    },
+    {
+      "pattern_type": "CONCLUSION",
+      "frequency": 0.2,
+      "avg_occurrences": 1.0,
+      "chunking_potential": "medium"
+    }
+  ],
+  "chunking_strategy": {
+    "recommended_chunk_size": 6008,
+    "chunk_overlap": 200,
+    "chunking_method": "hybrid",
+    "section_aware": true,
+    "legal_structure_priority": [
+      "JUDGMENT",
+      "ORDER",
+      "HELD"
+    ],
+    "metadata_enrichment": true,
+    "reasoning": {
+      "chunk_size": "Based on avg text length of 60087 chars",
+      "method": "Hybrid approach combining semantic and structural chunking",
+      "section_awareness": "100.0% of documents have clear legal structure"
+    }
+  }
+}

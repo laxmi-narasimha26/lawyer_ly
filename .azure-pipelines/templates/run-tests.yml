@@ -1,0 +1,156 @@
+# Template for running tests
+
+parameters:
+  - name: buildConfiguration
+    type: string
+    default: 'Release'
+  - name: pythonVersion
+    type: string
+    default: '3.11'
+  - name: nodeVersion
+    type: string
+    default: '18.x'
+
+steps:
+  # Setup Python for backend tests
+  - task: UsePythonVersion@0
+    displayName: 'Use Python $(pythonVersion)'
+    inputs:
+      versionSpec: '${{ parameters.pythonVersion }}'
+      addToPath: true
+      architecture: 'x64'
+
+  # Setup Node.js for frontend tests
+  - task: NodeTool@0
+    displayName: 'Use Node.js $(nodeVersion)'
+    inputs:
+      versionSpec: '${{ parameters.nodeVersion }}'
+
+  # Install backend dependencies
+  - script: |
+      python -m pip install --upgrade pip
+      pip install -r backend/requirements.txt
+      pip install pytest pytest-cov pytest-asyncio pytest-mock
+    displayName: 'Install backend test dependencies'
+
+  # Install frontend dependencies
+  - script: |
+      cd frontend
+      npm ci
+    displayName: 'Install frontend test dependencies'
+
+  # Run backend unit tests
+  - script: |
+      cd backend
+      python -m pytest tests/ \
+        --junitxml=test-results.xml \
+        --cov=. \
+        --cov-report=xml:coverage.xml \
+        --cov-report=html:htmlcov \
+        --cov-fail-under=70 \
+        -v
+    displayName: 'Run backend unit tests'
+    continueOnError: true
+    env:
+      PYTHONPATH: $(Build.SourcesDirectory)/backend
+      DATABASE_URL: sqlite:///test.db
+      REDIS_URL: redis://localhost:6379/1
+      ENVIRONMENT: test
+      DEBUG: true
+
+  # Run frontend tests (if any)
+  - script: |
+      cd frontend
+      # npm run test -- --coverage --watchAll=false --ci
+      echo "Frontend tests would run here"
+    displayName: 'Run frontend tests'
+    continueOnError: true
+
+  # Run integration tests
+  - script: |
+      cd backend
+      python -m pytest tests/integration/ \
+        --junitxml=integration-test-results.xml \
+        -v
+    displayName: 'Run integration tests'
+    continueOnError: true
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    env:
+      PYTHONPATH: $(Build.SourcesDirectory)/backend
+      DATABASE_URL: sqlite:///integration_test.db
+      REDIS_URL: redis://localhost:6379/2
+      ENVIRONMENT: test
+      DEBUG: true
+
+  # Run API tests
+  - script: |
+      cd backend
+      python -m pytest tests/api/ \
+        --junitxml=api-test-results.xml \
+        -v
+    displayName: 'Run API tests'
+    continueOnError: true
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    env:
+      PYTHONPATH: $(Build.SourcesDirectory)/backend
+      DATABASE_URL: sqlite:///api_test.db
+      REDIS_URL: redis://localhost:6379/3
+      ENVIRONMENT: test
+      DEBUG: true
+
+  # Publish test results
+  - task: PublishTestResults@2
+    displayName: 'Publish backend test results'
+    condition: always()
+    inputs:
+      testResultsFiles: '**/test-results.xml'
+      testRunTitle: 'Backend Unit Tests'
+      failTaskOnFailedTests: true
+
+  - task: PublishTestResults@2
+    displayName: 'Publish integration test results'
+    condition: always()
+    inputs:
+      testResultsFiles: '**/integration-test-results.xml'
+      testRunTitle: 'Integration Tests'
+      failTaskOnFailedTests: false
+
+  - task: PublishTestResults@2
+    displayName: 'Publish API test results'
+    condition: always()
+    inputs:
+      testResultsFiles: '**/api-test-results.xml'
+      testRunTitle: 'API Tests'
+      failTaskOnFailedTests: false
+
+  # Publish code coverage
+  - task: PublishCodeCoverageResults@1
+    displayName: 'Publish code coverage results'
+    condition: always()
+    inputs:
+      codeCoverageTool: 'Cobertura'
+      summaryFileLocation: '**/coverage.xml'
+      reportDirectory: '**/htmlcov'
+      failIfCoverageEmpty: false
+
+  # Archive test artifacts
+  - task: CopyFiles@2
+    displayName: 'Copy test artifacts'
+    condition: always()
+    inputs:
+      SourceFolder: 'backend'
+      Contents: |
+        test-results.xml
+        integration-test-results.xml
+        api-test-results.xml
+        coverage.xml
+        htmlcov/**
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/test-results'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish test artifacts'
+    condition: always()
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/test-results'
+      ArtifactName: 'test-results'
+      publishLocation: 'Container'

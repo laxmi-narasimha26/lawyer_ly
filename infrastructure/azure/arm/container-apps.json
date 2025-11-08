@@ -1,0 +1,358 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "description": "Container Apps infrastructure for Indian Legal AI Assistant"
+  },
+  "parameters": {
+    "containerAppEnvironmentName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Container App Environment"
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Location for all resources"
+      }
+    },
+    "logAnalyticsWorkspaceId": {
+      "type": "string",
+      "metadata": {
+        "description": "Log Analytics Workspace ID"
+      }
+    },
+    "applicationInsightsConnectionString": {
+      "type": "string",
+      "metadata": {
+        "description": "Application Insights connection string"
+      }
+    },
+    "subnetId": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet ID for container apps"
+      }
+    },
+    "containerRegistryServer": {
+      "type": "string",
+      "metadata": {
+        "description": "Container registry server URL"
+      }
+    },
+    "containerImageTag": {
+      "type": "string",
+      "defaultValue": "latest",
+      "metadata": {
+        "description": "Container image tag"
+      }
+    },
+    "keyVaultName": {
+      "type": "string",
+      "metadata": {
+        "description": "Key Vault name for secrets"
+      }
+    },
+    "storageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Storage account name"
+      }
+    },
+    "postgreSqlServerName": {
+      "type": "string",
+      "metadata": {
+        "description": "PostgreSQL server name"
+      }
+    },
+    "redisCacheName": {
+      "type": "string",
+      "metadata": {
+        "description": "Redis cache name"
+      }
+    },
+    "openAiEndpoint": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure OpenAI endpoint"
+      }
+    },
+    "enableAutoScale": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Enable auto-scaling"
+      }
+    }
+  },
+  "variables": {
+    "backendAppName": "[concat(parameters('containerAppEnvironmentName'), '-backend')]",
+    "frontendAppName": "[concat(parameters('containerAppEnvironmentName'), '-frontend')]",
+    "backendImageName": "[concat(parameters('containerRegistryServer'), '/backend:', parameters('containerImageTag'))]",
+    "frontendImageName": "[concat(parameters('containerRegistryServer'), '/frontend:', parameters('containerImageTag'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.App/managedEnvironments",
+      "apiVersion": "2023-05-01",
+      "name": "[parameters('containerAppEnvironmentName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "appLogsConfiguration": {
+          "destination": "log-analytics",
+          "logAnalyticsConfiguration": {
+            "customerId": "[reference(parameters('logAnalyticsWorkspaceId'), '2022-10-01').customerId]",
+            "sharedKey": "[listKeys(parameters('logAnalyticsWorkspaceId'), '2022-10-01').primarySharedKey]"
+          }
+        },
+        "vnetConfiguration": {
+          "infrastructureSubnetId": "[parameters('subnetId')]"
+        },
+        "zoneRedundant": false
+      }
+    },
+    {
+      "type": "Microsoft.App/containerApps",
+      "apiVersion": "2023-05-01",
+      "name": "[variables('backendAppName')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.App/managedEnvironments', parameters('containerAppEnvironmentName'))]"
+      ],
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "properties": {
+        "managedEnvironmentId": "[resourceId('Microsoft.App/managedEnvironments', parameters('containerAppEnvironmentName'))]",
+        "configuration": {
+          "activeRevisionsMode": "Single",
+          "ingress": {
+            "external": true,
+            "targetPort": 8000,
+            "allowInsecure": false,
+            "traffic": [
+              {
+                "weight": 100,
+                "latestRevision": true
+              }
+            ]
+          },
+          "registries": [
+            {
+              "server": "[parameters('containerRegistryServer')]",
+              "identity": "system"
+            }
+          ],
+          "secrets": [
+            {
+              "name": "database-connection-string",
+              "keyVaultUrl": "[concat('https://', parameters('keyVaultName'), '.vault.azure.net/secrets/database-connection-string')]",
+              "identity": "system"
+            },
+            {
+              "name": "redis-connection-string",
+              "keyVaultUrl": "[concat('https://', parameters('keyVaultName'), '.vault.azure.net/secrets/redis-connection-string')]",
+              "identity": "system"
+            },
+            {
+              "name": "azure-openai-api-key",
+              "keyVaultUrl": "[concat('https://', parameters('keyVaultName'), '.vault.azure.net/secrets/azure-openai-api-key')]",
+              "identity": "system"
+            },
+            {
+              "name": "storage-connection-string",
+              "keyVaultUrl": "[concat('https://', parameters('keyVaultName'), '.vault.azure.net/secrets/storage-connection-string')]",
+              "identity": "system"
+            }
+          ]
+        },
+        "template": {
+          "containers": [
+            {
+              "image": "[variables('backendImageName')]",
+              "name": "backend",
+              "env": [
+                {
+                  "name": "DATABASE_URL",
+                  "secretRef": "database-connection-string"
+                },
+                {
+                  "name": "REDIS_URL",
+                  "secretRef": "redis-connection-string"
+                },
+                {
+                  "name": "AZURE_OPENAI_API_KEY",
+                  "secretRef": "azure-openai-api-key"
+                },
+                {
+                  "name": "AZURE_OPENAI_ENDPOINT",
+                  "value": "[parameters('openAiEndpoint')]"
+                },
+                {
+                  "name": "AZURE_STORAGE_CONNECTION_STRING",
+                  "secretRef": "storage-connection-string"
+                },
+                {
+                  "name": "APPLICATION_INSIGHTS_CONNECTION_STRING",
+                  "value": "[parameters('applicationInsightsConnectionString')]"
+                },
+                {
+                  "name": "ENVIRONMENT",
+                  "value": "production"
+                },
+                {
+                  "name": "DEBUG",
+                  "value": "false"
+                },
+                {
+                  "name": "WORKERS",
+                  "value": "4"
+                }
+              ],
+              "resources": {
+                "cpu": 1.0,
+                "memory": "2Gi"
+              },
+              "probes": [
+                {
+                  "type": "Liveness",
+                  "httpGet": {
+                    "path": "/health/liveness",
+                    "port": 8000
+                  },
+                  "initialDelaySeconds": 60,
+                  "periodSeconds": 30,
+                  "timeoutSeconds": 10,
+                  "failureThreshold": 3
+                },
+                {
+                  "type": "Readiness",
+                  "httpGet": {
+                    "path": "/health/readiness",
+                    "port": 8000
+                  },
+                  "initialDelaySeconds": 30,
+                  "periodSeconds": 10,
+                  "timeoutSeconds": 5,
+                  "failureThreshold": 3
+                }
+              ]
+            }
+          ],
+          "scale": {
+            "minReplicas": "[if(parameters('enableAutoScale'), 2, 1)]",
+            "maxReplicas": "[if(parameters('enableAutoScale'), 10, 2)]",
+            "rules": "[if(parameters('enableAutoScale'), createArray(createObject('name', 'http-scaling', 'http', createObject('metadata', createObject('concurrentRequests', '100')))), createArray())]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.App/containerApps",
+      "apiVersion": "2023-05-01",
+      "name": "[variables('frontendAppName')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.App/managedEnvironments', parameters('containerAppEnvironmentName'))]",
+        "[resourceId('Microsoft.App/containerApps', variables('backendAppName'))]"
+      ],
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "properties": {
+        "managedEnvironmentId": "[resourceId('Microsoft.App/managedEnvironments', parameters('containerAppEnvironmentName'))]",
+        "configuration": {
+          "activeRevisionsMode": "Single",
+          "ingress": {
+            "external": true,
+            "targetPort": 8080,
+            "allowInsecure": false,
+            "traffic": [
+              {
+                "weight": 100,
+                "latestRevision": true
+              }
+            ]
+          },
+          "registries": [
+            {
+              "server": "[parameters('containerRegistryServer')]",
+              "identity": "system"
+            }
+          ]
+        },
+        "template": {
+          "containers": [
+            {
+              "image": "[variables('frontendImageName')]",
+              "name": "frontend",
+              "env": [
+                {
+                  "name": "VITE_API_BASE_URL",
+                  "value": "[concat('https://', reference(resourceId('Microsoft.App/containerApps', variables('backendAppName'))).configuration.ingress.fqdn)]"
+                }
+              ],
+              "resources": {
+                "cpu": 0.5,
+                "memory": "1Gi"
+              },
+              "probes": [
+                {
+                  "type": "Liveness",
+                  "httpGet": {
+                    "path": "/health",
+                    "port": 8080
+                  },
+                  "initialDelaySeconds": 30,
+                  "periodSeconds": 30,
+                  "timeoutSeconds": 10,
+                  "failureThreshold": 3
+                },
+                {
+                  "type": "Readiness",
+                  "httpGet": {
+                    "path": "/health",
+                    "port": 8080
+                  },
+                  "initialDelaySeconds": 10,
+                  "periodSeconds": 10,
+                  "timeoutSeconds": 5,
+                  "failureThreshold": 3
+                }
+              ]
+            }
+          ],
+          "scale": {
+            "minReplicas": "[if(parameters('enableAutoScale'), 2, 1)]",
+            "maxReplicas": "[if(parameters('enableAutoScale'), 5, 2)]",
+            "rules": "[if(parameters('enableAutoScale'), createArray(createObject('name', 'http-scaling', 'http', createObject('metadata', createObject('concurrentRequests', '200')))), createArray())]"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "containerAppEnvironmentId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.App/managedEnvironments', parameters('containerAppEnvironmentName'))]"
+    },
+    "backendUrl": {
+      "type": "string",
+      "value": "[concat('https://', reference(resourceId('Microsoft.App/containerApps', variables('backendAppName'))).configuration.ingress.fqdn)]"
+    },
+    "frontendUrl": {
+      "type": "string",
+      "value": "[concat('https://', reference(resourceId('Microsoft.App/containerApps', variables('frontendAppName'))).configuration.ingress.fqdn)]"
+    },
+    "backendAppName": {
+      "type": "string",
+      "value": "[variables('backendAppName')]"
+    },
+    "frontendAppName": {
+      "type": "string",
+      "value": "[variables('frontendAppName')]"
+    }
+  }
+}

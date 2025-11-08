@@ -1,0 +1,200 @@
+# Template for deploying to Azure Container Apps
+
+parameters:
+  - name: environment
+    type: string
+  - name: resourceGroupName
+    type: string
+  - name: containerRegistry
+    type: string
+  - name: imageTag
+    type: string
+  - name: azureServiceConnection
+    type: string
+
+steps:
+  # Download deployment artifacts
+  - task: DownloadBuildArtifacts@0
+    displayName: 'Download Docker artifacts'
+    inputs:
+      buildType: 'current'
+      artifactName: 'docker-artifacts'
+      downloadPath: '$(System.ArtifactsDirectory)'
+
+  # Azure CLI task for deployment
+  - task: AzureCLI@2
+    displayName: 'Deploy to Azure Container Apps'
+    inputs:
+      azureSubscription: '${{ parameters.azureServiceConnection }}'
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        set -e
+        
+        # Variables
+        RESOURCE_GROUP="${{ parameters.resourceGroupName }}"
+        ENVIRONMENT="${{ parameters.environment }}"
+        CONTAINER_REGISTRY="${{ parameters.containerRegistry }}"
+        IMAGE_TAG="${{ parameters.imageTag }}"
+        
+        # Container App names
+        BACKEND_APP="legal-ai-${ENVIRONMENT}-env-backend"
+        FRONTEND_APP="legal-ai-${ENVIRONMENT}-env-frontend"
+        
+        echo "Deploying to environment: $ENVIRONMENT"
+        echo "Resource Group: $RESOURCE_GROUP"
+        echo "Image Tag: $IMAGE_TAG"
+        
+        # Check if resource group exists
+        if ! az group show --name "$RESOURCE_GROUP" &>/dev/null; then
+          echo "Error: Resource group $RESOURCE_GROUP does not exist"
+          exit 1
+        fi
+        
+        # Update backend container app
+        echo "Updating backend container app: $BACKEND_APP"
+        az containerapp update \
+          --name "$BACKEND_APP" \
+          --resource-group "$RESOURCE_GROUP" \
+          --image "${CONTAINER_REGISTRY}/legal-ai/backend:${IMAGE_TAG}" \
+          --revision-suffix "r${IMAGE_TAG}"
+        
+        # Update frontend container app
+        echo "Updating frontend container app: $FRONTEND_APP"
+        az containerapp update \
+          --name "$FRONTEND_APP" \
+          --resource-group "$RESOURCE_GROUP" \
+          --image "${CONTAINER_REGISTRY}/legal-ai/frontend:${IMAGE_TAG}" \
+          --revision-suffix "r${IMAGE_TAG}"
+        
+        # Wait for deployment to complete
+        echo "Waiting for deployments to complete..."
+        sleep 30
+        
+        # Check deployment status
+        BACKEND_STATUS=$(az containerapp revision list \
+          --name "$BACKEND_APP" \
+          --resource-group "$RESOURCE_GROUP" \
+          --query "[0].properties.provisioningState" -o tsv)
+        
+        FRONTEND_STATUS=$(az containerapp revision list \
+          --name "$FRONTEND_APP" \
+          --resource-group "$RESOURCE_GROUP" \
+          --query "[0].properties.provisioningState" -o tsv)
+        
+        echo "Backend deployment status: $BACKEND_STATUS"
+        echo "Frontend deployment status: $FRONTEND_STATUS"
+        
+        if [ "$BACKEND_STATUS" != "Succeeded" ] || [ "$FRONTEND_STATUS" != "Succeeded" ]; then
+          echo "Deployment failed"
+          exit 1
+        fi
+        
+        # Get application URLs
+        BACKEND_URL=$(az containerapp show \
+          --name "$BACKEND_APP" \
+          --resource-group "$RESOURCE_GROUP" \
+          --query "properties.configuration.ingress.fqdn" -o tsv)
+        
+        FRONTEND_URL=$(az containerapp show \
+          --name "$FRONTEND_APP" \
+          --resource-group "$RESOURCE_GROUP" \
+          --query "properties.configuration.ingress.fqdn" -o tsv)
+        
+        echo "Backend URL: https://$BACKEND_URL"
+        echo "Frontend URL: https://$FRONTEND_URL"
+        
+        # Save URLs to pipeline variables
+        echo "##vso[task.setvariable variable=BackendUrl;isOutput=true]https://$BACKEND_URL"
+        echo "##vso[task.setvariable variable=FrontendUrl;isOutput=true]https://$FRONTEND_URL"
+        
+        # Create deployment summary
+        cat > deployment-summary.json << EOF
+        {
+          "environment": "$ENVIRONMENT",
+          "resource_group": "$RESOURCE_GROUP",
+          "image_tag": "$IMAGE_TAG",
+          "deployment_time": "$(date -u +'%Y-%m-%dT%H:%M:%SZ')",
+          "backend": {
+            "app_name": "$BACKEND_APP",
+            "url": "https://$BACKEND_URL",
+            "status": "$BACKEND_STATUS"
+          },
+          "frontend": {
+            "app_name": "$FRONTEND_APP",
+            "url": "https://$FRONTEND_URL",
+            "status": "$FRONTEND_STATUS"
+          }
+        }
+        EOF
+        
+        echo "Deployment completed successfully!"
+
+  # Health check after deployment
+  - task: AzureCLI@2
+    displayName: 'Health check'
+    inputs:
+      azureSubscription: '${{ parameters.azureServiceConnection }}'
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        set -e
+        
+        # Get URLs from previous step
+        RESOURCE_GROUP="${{ parameters.resourceGroupName }}"
+        ENVIRONMENT="${{ parameters.environment }}"
+        BACKEND_APP="legal-ai-${ENVIRONMENT}-env-backend"
+        FRONTEND_APP="legal-ai-${ENVIRONMENT}-env-frontend"
+        
+        BACKEND_URL=$(az containerapp show \
+          --name "$BACKEND_APP" \
+          --resource-group "$RESOURCE_GROUP" \
+          --query "properties.configuration.ingress.fqdn" -o tsv)
+        
+        FRONTEND_URL=$(az containerapp show \
+          --name "$FRONTEND_APP" \
+          --resource-group "$RESOURCE_GROUP" \
+          --query "properties.configuration.ingress.fqdn" -o tsv)
+        
+        echo "Running health checks..."
+        
+        # Backend health check
+        echo "Checking backend health: https://$BACKEND_URL/health"
+        BACKEND_HEALTH=$(curl -s -o /dev/null -w "%{http_code}" "https://$BACKEND_URL/health" || echo "000")
+        
+        if [ "$BACKEND_HEALTH" = "200" ]; then
+          echo "✓ Backend health check passed"
+        else
+          echo "✗ Backend health check failed (HTTP $BACKEND_HEALTH)"
+          exit 1
+        fi
+        
+        # Frontend health check
+        echo "Checking frontend health: https://$FRONTEND_URL/health"
+        FRONTEND_HEALTH=$(curl -s -o /dev/null -w "%{http_code}" "https://$FRONTEND_URL/health" || echo "000")
+        
+        if [ "$FRONTEND_HEALTH" = "200" ]; then
+          echo "✓ Frontend health check passed"
+        else
+          echo "✗ Frontend health check failed (HTTP $FRONTEND_HEALTH)"
+          exit 1
+        fi
+        
+        echo "All health checks passed!"
+
+  # Copy deployment artifacts
+  - task: CopyFiles@2
+    displayName: 'Copy deployment artifacts'
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)'
+      Contents: |
+        deployment-summary.json
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/deployment-artifacts'
+
+  # Publish deployment artifacts
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish deployment artifacts'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/deployment-artifacts'
+      ArtifactName: 'deployment-artifacts-${{ parameters.environment }}'
+      publishLocation: 'Container'

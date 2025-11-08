@@ -1,0 +1,29 @@
+# Chunking & Pre-Embedding Pipeline Requirements
+# Fixed libraries as specified in requirements
+
+# PDF text extraction
+PyMuPDF==1.23.14
+
+# OCR fallback
+pytesseract==0.3.10
+Pillow==10.1.0
+
+# Tokenizer
+tiktoken==0.5.2
+
+# Data processing
+numpy==1.24.3
+
+# Standard libraries (included with Python)
+# - json
+# - hashlib
+# - unicodedata
+# - re
+# - pathlib
+# - typing
+# - dataclasses
+# - datetime
+# - logging
+# - os
+# - sys
+# - io

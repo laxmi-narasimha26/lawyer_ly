@@ -1,0 +1,91 @@
+# Core FastAPI and server dependencies
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+python-multipart==0.0.6
+pydantic==2.5.3
+pydantic-settings==2.1.0
+
+# OpenAI and Azure integration
+openai==1.10.0
+# azure-openai package does not exist - openai package includes Azure support
+tiktoken==0.5.2
+
+# Database and vector search
+asyncpg==0.29.0
+psycopg2-binary==2.9.9
+pgvector==0.2.4
+sqlalchemy[asyncio]==2.0.25
+alembic==1.13.1
+
+# Azure cloud services
+azure-storage-blob==12.19.0
+azure-identity==1.15.0
+azure-monitor-opentelemetry==1.2.0
+azure-keyvault-secrets==4.7.0
+azure-keyvault-keys==4.8.0
+
+# Document processing and parsing
+PyMuPDF==1.23.8
+python-docx==1.1.0
+pytesseract==0.3.10
+Pillow==10.2.0
+pdfplumber==0.10.3
+azure-ai-formrecognizer==3.3.2
+
+# Text processing and chunking
+langchain==0.1.0
+langchain-openai==0.0.5
+langchain-community==0.0.13
+sentence-transformers==2.2.2
+nltk==3.8.1
+spacy==3.7.2
+
+# Caching and session management
+redis[hiredis]==5.0.1
+aioredis==2.0.1
+
+# Security and authentication
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+cryptography==41.0.7
+bleach==6.1.0
+
+# HTTP client and utilities
+httpx==0.26.0
+aiofiles==23.2.1
+tenacity==8.2.3
+python-dotenv==1.0.0
+
+# Monitoring and logging
+structlog==24.1.0
+prometheus-client==0.19.0
+sentry-sdk[fastapi]==1.40.0
+
+# Testing framework
+pytest==7.4.4
+pytest-asyncio==0.23.3
+pytest-cov==4.1.0
+pytest-mock==3.12.0
+factory-boy==3.3.0
+
+# Development tools
+black==23.12.1
+isort==5.13.2
+flake8==7.0.0
+mypy==1.8.0
+
+# Background task processing
+celery==5.3.4
+flower==2.0.1
+
+# Rate limiting
+slowapi==0.1.9
+
+# Data validation and serialization
+marshmallow==3.20.2
+jsonschema==4.20.0
+
+# Utilities
+python-dateutil==2.8.2
+pytz==2023.3
+uuid==1.30

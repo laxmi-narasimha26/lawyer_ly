@@ -1,0 +1,210 @@
+# Azure DevOps Pipeline for Indian Legal AI Assistant
+# This pipeline builds, tests, and deploys the application
+
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+      - release/*
+  paths:
+    exclude:
+      - README.md
+      - docs/*
+      - .gitignore
+
+pr:
+  branches:
+    include:
+      - main
+      - develop
+  paths:
+    exclude:
+      - README.md
+      - docs/*
+      - .gitignore
+
+variables:
+  # Build configuration
+  buildConfiguration: 'Release'
+  vmImageName: 'ubuntu-latest'
+  
+  # Docker configuration
+  dockerRegistryServiceConnection: 'legal-ai-acr'
+  imageRepository: 'legal-ai'
+  containerRegistry: 'legalai.azurecr.io'
+  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  tag: '$(Build.BuildId)'
+  
+  # Application configuration
+  projectName: 'legal-ai'
+  
+  # Environment-specific variables
+  ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+    environment: 'prod'
+    deploymentEnvironment: 'Production'
+    resourceGroupName: 'legal-ai-prod-rg'
+  ${{ elseif eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
+    environment: 'dev'
+    deploymentEnvironment: 'Development'
+    resourceGroupName: 'legal-ai-dev-rg'
+  ${{ else }}:
+    environment: 'staging'
+    deploymentEnvironment: 'Staging'
+    resourceGroupName: 'legal-ai-staging-rg'
+
+stages:
+  # Build and Test Stage
+  - stage: BuildAndTest
+    displayName: 'Build and Test'
+    jobs:
+      - job: BuildBackend
+        displayName: 'Build Backend'
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - template: templates/build-backend.yml
+            parameters:
+              buildConfiguration: $(buildConfiguration)
+              
+      - job: BuildFrontend
+        displayName: 'Build Frontend'
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - template: templates/build-frontend.yml
+            parameters:
+              buildConfiguration: $(buildConfiguration)
+              
+      - job: RunTests
+        displayName: 'Run Tests'
+        dependsOn: 
+          - BuildBackend
+          - BuildFrontend
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - template: templates/run-tests.yml
+            parameters:
+              buildConfiguration: $(buildConfiguration)
+              
+      - job: SecurityScan
+        displayName: 'Security Scan'
+        dependsOn: 
+          - BuildBackend
+          - BuildFrontend
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - template: templates/security-scan.yml
+
+  # Build Docker Images Stage
+  - stage: BuildImages
+    displayName: 'Build Docker Images'
+    dependsOn: BuildAndTest
+    condition: succeeded()
+    jobs:
+      - job: BuildDockerImages
+        displayName: 'Build and Push Docker Images'
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - template: templates/build-docker-images.yml
+            parameters:
+              containerRegistry: $(containerRegistry)
+              dockerRegistryServiceConnection: $(dockerRegistryServiceConnection)
+              imageRepository: $(imageRepository)
+              tag: $(tag)
+
+  # Deploy to Development
+  - stage: DeployDev
+    displayName: 'Deploy to Development'
+    dependsOn: BuildImages
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
+    jobs:
+      - deployment: DeployToDev
+        displayName: 'Deploy to Development Environment'
+        pool:
+          vmImage: $(vmImageName)
+        environment: 'Development'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - template: templates/deploy-to-azure.yml
+                  parameters:
+                    environment: 'dev'
+                    resourceGroupName: 'legal-ai-dev-rg'
+                    containerRegistry: $(containerRegistry)
+                    imageTag: $(tag)
+                    azureServiceConnection: 'legal-ai-dev-sp'
+
+  # Deploy to Staging
+  - stage: DeployStaging
+    displayName: 'Deploy to Staging'
+    dependsOn: BuildImages
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'))
+    jobs:
+      - deployment: DeployToStaging
+        displayName: 'Deploy to Staging Environment'
+        pool:
+          vmImage: $(vmImageName)
+        environment: 'Staging'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - template: templates/deploy-to-azure.yml
+                  parameters:
+                    environment: 'staging'
+                    resourceGroupName: 'legal-ai-staging-rg'
+                    containerRegistry: $(containerRegistry)
+                    imageTag: $(tag)
+                    azureServiceConnection: 'legal-ai-staging-sp'
+
+  # Deploy to Production
+  - stage: DeployProd
+    displayName: 'Deploy to Production'
+    dependsOn: BuildImages
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    jobs:
+      - deployment: DeployToProd
+        displayName: 'Deploy to Production Environment'
+        pool:
+          vmImage: $(vmImageName)
+        environment: 'Production'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - template: templates/deploy-to-azure.yml
+                  parameters:
+                    environment: 'prod'
+                    resourceGroupName: 'legal-ai-prod-rg'
+                    containerRegistry: $(containerRegistry)
+                    imageTag: $(tag)
+                    azureServiceConnection: 'legal-ai-prod-sp'
+                    
+                # Post-deployment verification
+                - template: templates/post-deployment-tests.yml
+                  parameters:
+                    environment: 'prod'
+                    
+  # Post-Deployment Monitoring
+  - stage: PostDeployment
+    displayName: 'Post-Deployment Monitoring'
+    dependsOn: 
+      - DeployDev
+      - DeployStaging  
+      - DeployProd
+    condition: or(succeeded('DeployDev'), succeeded('DeployStaging'), succeeded('DeployProd'))
+    jobs:
+      - job: MonitoringSetup
+        displayName: 'Setup Monitoring and Alerts'
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - template: templates/setup-monitoring.yml
+            parameters:
+              environment: $(environment)
+              resourceGroupName: $(resourceGroupName)

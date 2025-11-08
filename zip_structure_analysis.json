@@ -1,0 +1,130 @@
+{
+  "years_analyzed": [
+    "2020",
+    "2021",
+    "2022",
+    "2023",
+    "2024"
+  ],
+  "file_counts": {
+    "2020": {
+      "total_files": 571,
+      "pdf_files": 571,
+      "other_files": 0,
+      "metadata_files": 571
+    },
+    "2021": {
+      "total_files": 708,
+      "pdf_files": 708,
+      "other_files": 0,
+      "metadata_files": 708
+    },
+    "2022": {
+      "total_files": 1017,
+      "pdf_files": 1017,
+      "other_files": 0,
+      "metadata_files": 1017
+    },
+    "2023": {
+      "total_files": 854,
+      "pdf_files": 854,
+      "other_files": 0,
+      "metadata_files": 856
+    },
+    "2024": {
+      "total_files": 782,
+      "pdf_files": 782,
+      "other_files": 0,
+      "metadata_files": 782
+    }
+  },
+  "file_sizes": {
+    "2020": {
+      "compressed_mb": 233.03,
+      "uncompressed_mb": 240.07,
+      "compression_ratio": 0.97
+    },
+    "2021": {
+      "compressed_mb": 337.4,
+      "uncompressed_mb": 354.49,
+      "compression_ratio": 0.95
+    },
+    "2022": {
+      "compressed_mb": 413.52,
+      "uncompressed_mb": 428.32,
+      "compression_ratio": 0.97
+    },
+    "2023": {
+      "compressed_mb": 367.15,
+      "uncompressed_mb": 380.86,
+      "compression_ratio": 0.96
+    },
+    "2024": {
+      "compressed_mb": 146.62,
+      "uncompressed_mb": 192.34,
+      "compression_ratio": 0.76
+    }
+  },
+  "sample_files": {
+    "2020": {
+      "first_5_pdfs": [
+        "2020_10_791_856_EN.pdf",
+        "2020_13_129_150_EN.pdf",
+        "2020_11_948_965_EN.pdf",
+        "2020_11_786_799_EN.pdf",
+        "2020_11_896_947_EN.pdf"
+      ],
+      "total_pdfs": 571
+    },
+    "2021": {
+      "first_5_pdfs": [
+        "2021_2_644_676_EN.pdf",
+        "2021_3_776_795_EN.pdf",
+        "2021_2_677_769_EN.pdf",
+        "2021_2_1005_1009_EN.pdf",
+        "2021_11_798_810_EN.pdf"
+      ],
+      "total_pdfs": 708
+    },
+    "2022": {
+      "first_5_pdfs": [
+        "2022_13_1064_1072_EN.pdf",
+        "2022_7_490_492_EN.pdf",
+        "2022_12_246_256_EN.pdf",
+        "2022_13_841_858_EN.pdf",
+        "2022_2_1146_1154_EN.pdf"
+      ],
+      "total_pdfs": 1017
+    },
+    "2023": {
+      "first_5_pdfs": [
+        "2023_7_322_346_EN.pdf",
+        "2023_16_888_916_EN.pdf",
+        "2023_7_26_84_EN.pdf",
+        "2023_2_312_325_EN.pdf",
+        "2023_16_1535_1546_EN.pdf"
+      ],
+      "total_pdfs": 854
+    },
+    "2024": {
+      "first_5_pdfs": [
+        "2024_9_770_773_EN.pdf",
+        "2024_10_62_78_EN.pdf",
+        "2024_5_596_611_EN.pdf",
+        "2024_3_627_636_EN.pdf",
+        "2024_10_108_125_EN.pdf"
+      ],
+      "total_pdfs": 782
+    }
+  },
+  "extraction_recommendations": {
+    "total_compressed_mb": 1497.72,
+    "total_uncompressed_mb": 1596.08,
+    "space_savings_mb": 98.36,
+    "recommendation": "EXTRACT_ALL",
+    "reasoning": [
+      "Low compression ratio",
+      "Extraction may improve processing speed"
+    ]
+  }
+}

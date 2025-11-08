@@ -1,0 +1,159 @@
+# Azure Container Apps deployment with auto-scaling
+# Deploy with: az containerapp create --yaml azure-container-app.yaml
+
+location: Central India
+resourceGroup: legal-ai-rg
+name: legal-ai-backend
+type: Microsoft.App/containerApps
+properties:
+  managedEnvironmentId: /subscriptions/{subscription-id}/resourceGroups/legal-ai-rg/providers/Microsoft.App/managedEnvironments/legal-ai-env
+  configuration:
+    activeRevisionsMode: Single
+    ingress:
+      external: true
+      targetPort: 8000
+      transport: http
+      corsPolicy:
+        allowedOrigins:
+          - "https://legal-ai-frontend.azurewebsites.net"
+          - "https://localhost:3000"
+        allowedMethods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - OPTIONS
+        allowedHeaders:
+          - "*"
+        allowCredentials: true
+    secrets:
+      - name: azure-openai-api-key
+        value: "{azure-openai-api-key}"
+      - name: database-connection-string
+        value: "{database-connection-string}"
+      - name: redis-connection-string
+        value: "{redis-connection-string}"
+      - name: azure-storage-connection-string
+        value: "{azure-storage-connection-string}"
+      - name: application-insights-connection-string
+        value: "{application-insights-connection-string}"
+    registries:
+      - server: legalairegistry.azurecr.io
+        username: legalairegistry
+        passwordSecretRef: registry-password
+  template:
+    containers:
+      - image: legalairegistry.azurecr.io/legal-ai-backend:latest
+        name: legal-ai-backend
+        env:
+          - name: ENVIRONMENT
+            value: "production"
+          - name: AZURE_OPENAI_API_KEY
+            secretRef: azure-openai-api-key
+          - name: DATABASE_URL
+            secretRef: database-connection-string
+          - name: REDIS_URL
+            secretRef: redis-connection-string
+          - name: AZURE_STORAGE_CONNECTION_STRING
+            secretRef: azure-storage-connection-string
+          - name: AZURE_APPLICATION_INSIGHTS_CONNECTION_STRING
+            secretRef: application-insights-connection-string
+          - name: ALLOWED_ORIGINS
+            value: "https://legal-ai-frontend.azurewebsites.net,https://localhost:3000"
+          - name: LOG_LEVEL
+            value: "INFO"
+        resources:
+          cpu: 1.0
+          memory: 2Gi
+        probes:
+          - type: Liveness
+            httpGet:
+              path: "/health/live"
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          - type: Readiness
+            httpGet:
+              path: "/health/ready"
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+          - type: Startup
+            httpGet:
+              path: "/health"
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 30
+    scale:
+      minReplicas: 2
+      maxReplicas: 10
+      rules:
+        - name: http-scaling-rule
+          http:
+            metadata:
+              concurrentRequests: "100"
+        - name: cpu-scaling-rule
+          custom:
+            type: cpu
+            metadata:
+              type: Utilization
+              value: "80"
+        - name: memory-scaling-rule
+          custom:
+            type: memory
+            metadata:
+              type: Utilization
+              value: "85"
+
+---
+# Azure Container Apps Environment
+apiVersion: 2022-03-01
+location: Central India
+resourceGroup: legal-ai-rg
+name: legal-ai-env
+type: Microsoft.App/managedEnvironments
+properties:
+  appLogsConfiguration:
+    destination: log-analytics
+    logAnalyticsConfiguration:
+      customerId: "{log-analytics-workspace-id}"
+      sharedKey: "{log-analytics-shared-key}"
+  daprAIInstrumentationKey: "{application-insights-instrumentation-key}"
+  vnetConfiguration:
+    infrastructureSubnetId: /subscriptions/{subscription-id}/resourceGroups/legal-ai-rg/providers/Microsoft.Network/virtualNetworks/legal-ai-vnet/subnets/container-apps-subnet
+    internal: false
+
+---
+# Application Insights for monitoring
+apiVersion: 2020-02-02
+location: Central India
+resourceGroup: legal-ai-rg
+name: legal-ai-insights
+type: Microsoft.Insights/components
+properties:
+  Application_Type: web
+  Flow_Type: Redfield
+  Request_Source: rest
+  WorkspaceResourceId: /subscriptions/{subscription-id}/resourceGroups/legal-ai-rg/providers/Microsoft.OperationalInsights/workspaces/legal-ai-workspace
+
+---
+# Log Analytics Workspace
+apiVersion: 2021-06-01
+location: Central India
+resourceGroup: legal-ai-rg
+name: legal-ai-workspace
+type: Microsoft.OperationalInsights/workspaces
+properties:
+  sku:
+    name: PerGB2018
+  retentionInDays: 30
+  features:
+    searchVersion: 1
+    legacy: 0
+    enableLogAccessUsingOnlyResourcePermissions: true

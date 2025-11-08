@@ -1,0 +1,293 @@
+# Azure Monitor Configuration for Indian Legal AI Assistant
+monitoring:
+  application_insights:
+    connection_string: "${AZURE_APPLICATION_INSIGHTS_CONNECTION_STRING}"
+    sampling_percentage: 100
+    enable_live_metrics: true
+    enable_dependency_tracking: true
+    enable_request_tracking: true
+    enable_exception_tracking: true
+    
+  metrics:
+    collection_interval: 60  # seconds
+    retention_days: 90
+    custom_metrics:
+      - name: "legal_queries_per_minute"
+        description: "Number of legal queries processed per minute"
+        unit: "Count"
+      - name: "document_processing_time"
+        description: "Time taken to process uploaded documents"
+        unit: "Seconds"
+      - name: "rag_pipeline_latency"
+        description: "End-to-end RAG pipeline processing time"
+        unit: "Milliseconds"
+      - name: "vector_search_time"
+        description: "Vector similarity search execution time"
+        unit: "Milliseconds"
+      - name: "openai_api_calls"
+        description: "Number of OpenAI API calls made"
+        unit: "Count"
+      - name: "token_usage"
+        description: "OpenAI token consumption"
+        unit: "Count"
+      - name: "cache_hit_rate"
+        description: "Redis cache hit rate percentage"
+        unit: "Percent"
+      - name: "database_connection_pool_usage"
+        description: "Database connection pool utilization"
+        unit: "Percent"
+
+  alerts:
+    # Performance Alerts
+    - name: "High Response Time"
+      description: "Average response time exceeds 10 seconds"
+      metric: "response_time_avg"
+      condition: "greater_than"
+      threshold: 10.0
+      evaluation_frequency: "PT5M"  # Every 5 minutes
+      window_size: "PT10M"          # 10 minute window
+      severity: "2"  # Warning
+      action_groups:
+        - "legal-ai-alerts"
+      
+    - name: "High Error Rate"
+      description: "Error rate exceeds 5%"
+      metric: "error_rate"
+      condition: "greater_than"
+      threshold: 5.0
+      evaluation_frequency: "PT1M"
+      window_size: "PT5M"
+      severity: "1"  # Critical
+      action_groups:
+        - "legal-ai-critical-alerts"
+    
+    # Resource Alerts
+    - name: "High CPU Usage"
+      description: "CPU usage exceeds 80%"
+      metric: "cpu_percent"
+      condition: "greater_than"
+      threshold: 80.0
+      evaluation_frequency: "PT5M"
+      window_size: "PT10M"
+      severity: "2"
+      action_groups:
+        - "legal-ai-alerts"
+    
+    - name: "High Memory Usage"
+      description: "Memory usage exceeds 85%"
+      metric: "memory_percent"
+      condition: "greater_than"
+      threshold: 85.0
+      evaluation_frequency: "PT5M"
+      window_size: "PT10M"
+      severity: "2"
+      action_groups:
+        - "legal-ai-alerts"
+    
+    - name: "Low Disk Space"
+      description: "Disk usage exceeds 90%"
+      metric: "disk_usage_percent"
+      condition: "greater_than"
+      threshold: 90.0
+      evaluation_frequency: "PT15M"
+      window_size: "PT30M"
+      severity: "1"
+      action_groups:
+        - "legal-ai-critical-alerts"
+    
+    # Application-Specific Alerts
+    - name: "OpenAI API Failures"
+      description: "OpenAI API failure rate exceeds 10%"
+      metric: "openai_api_failure_rate"
+      condition: "greater_than"
+      threshold: 10.0
+      evaluation_frequency: "PT1M"
+      window_size: "PT5M"
+      severity: "1"
+      action_groups:
+        - "legal-ai-critical-alerts"
+    
+    - name: "High Token Usage"
+      description: "Daily token usage exceeds budget"
+      metric: "daily_token_usage"
+      condition: "greater_than"
+      threshold: 1000000  # 1M tokens per day
+      evaluation_frequency: "PT1H"
+      window_size: "PT24H"
+      severity: "2"
+      action_groups:
+        - "legal-ai-cost-alerts"
+    
+    - name: "Document Processing Queue Backup"
+      description: "Document processing queue has more than 100 items"
+      metric: "document_queue_length"
+      condition: "greater_than"
+      threshold: 100
+      evaluation_frequency: "PT5M"
+      window_size: "PT15M"
+      severity: "2"
+      action_groups:
+        - "legal-ai-alerts"
+    
+    - name: "Database Connection Pool Exhaustion"
+      description: "Database connection pool usage exceeds 90%"
+      metric: "db_connection_pool_usage"
+      condition: "greater_than"
+      threshold: 90.0
+      evaluation_frequency: "PT1M"
+      window_size: "PT5M"
+      severity: "1"
+      action_groups:
+        - "legal-ai-critical-alerts"
+
+  action_groups:
+    - name: "legal-ai-alerts"
+      short_name: "LegalAI"
+      email_receivers:
+        - name: "DevTeam"
+          email_address: "dev-team@legalai.com"
+        - name: "Operations"
+          email_address: "ops@legalai.com"
+      webhook_receivers:
+        - name: "Teams"
+          service_uri: "${TEAMS_WEBHOOK_URL}"
+    
+    - name: "legal-ai-critical-alerts"
+      short_name: "LegalAICrit"
+      email_receivers:
+        - name: "DevTeam"
+          email_address: "dev-team@legalai.com"
+        - name: "Operations"
+          email_address: "ops@legalai.com"
+        - name: "Management"
+          email_address: "management@legalai.com"
+      sms_receivers:
+        - name: "OnCallEngineer"
+          country_code: "91"
+          phone_number: "${ONCALL_PHONE_NUMBER}"
+      webhook_receivers:
+        - name: "Teams"
+          service_uri: "${TEAMS_WEBHOOK_URL}"
+        - name: "PagerDuty"
+          service_uri: "${PAGERDUTY_WEBHOOK_URL}"
+    
+    - name: "legal-ai-cost-alerts"
+      short_name: "LegalAICost"
+      email_receivers:
+        - name: "Finance"
+          email_address: "finance@legalai.com"
+        - name: "Management"
+          email_address: "management@legalai.com"
+
+  dashboards:
+    - name: "Legal AI System Overview"
+      widgets:
+        - type: "metric_chart"
+          title: "Request Rate"
+          metrics: ["requests_per_minute"]
+          time_range: "PT1H"
+        - type: "metric_chart"
+          title: "Response Time"
+          metrics: ["response_time_avg", "response_time_p95"]
+          time_range: "PT1H"
+        - type: "metric_chart"
+          title: "Error Rate"
+          metrics: ["error_rate"]
+          time_range: "PT1H"
+        - type: "metric_chart"
+          title: "System Resources"
+          metrics: ["cpu_percent", "memory_percent"]
+          time_range: "PT1H"
+    
+    - name: "Legal AI Application Performance"
+      widgets:
+        - type: "metric_chart"
+          title: "RAG Pipeline Performance"
+          metrics: ["rag_pipeline_latency", "vector_search_time"]
+          time_range: "PT4H"
+        - type: "metric_chart"
+          title: "Document Processing"
+          metrics: ["document_processing_time", "documents_processed_per_hour"]
+          time_range: "PT4H"
+        - type: "metric_chart"
+          title: "OpenAI API Usage"
+          metrics: ["openai_api_calls", "token_usage"]
+          time_range: "PT24H"
+        - type: "metric_chart"
+          title: "Cache Performance"
+          metrics: ["cache_hit_rate", "cache_miss_rate"]
+          time_range: "PT1H"
+
+autoscaling:
+  rules:
+    - name: "cpu_scaling"
+      metric: "cpu_percent"
+      scale_out_threshold: 80.0
+      scale_in_threshold: 30.0
+      min_instances: 2
+      max_instances: 10
+      cooldown_minutes: 10
+      scale_increment: 1
+      
+    - name: "memory_scaling"
+      metric: "memory_percent"
+      scale_out_threshold: 85.0
+      scale_in_threshold: 40.0
+      min_instances: 2
+      max_instances: 10
+      cooldown_minutes: 10
+      scale_increment: 1
+      
+    - name: "request_rate_scaling"
+      metric: "requests_per_minute"
+      scale_out_threshold: 500  # 500 requests per minute per instance
+      scale_in_threshold: 100   # 100 requests per minute per instance
+      min_instances: 2
+      max_instances: 15
+      cooldown_minutes: 5
+      scale_increment: 2
+      
+    - name: "queue_length_scaling"
+      metric: "document_queue_length"
+      scale_out_threshold: 50
+      scale_in_threshold: 10
+      min_instances: 2
+      max_instances: 8
+      cooldown_minutes: 15
+      scale_increment: 1
+
+health_checks:
+  endpoints:
+    - path: "/health"
+      interval_seconds: 30
+      timeout_seconds: 10
+      failure_threshold: 3
+      success_threshold: 1
+    - path: "/health/ready"
+      interval_seconds: 10
+      timeout_seconds: 5
+      failure_threshold: 3
+      success_threshold: 1
+    - path: "/health/live"
+      interval_seconds: 10
+      timeout_seconds: 5
+      failure_threshold: 5
+      success_threshold: 1
+
+logging:
+  level: "INFO"
+  structured: true
+  include_request_id: true
+  include_user_id: true
+  exclude_sensitive_data: true
+  retention_days: 30
+  
+  log_groups:
+    - name: "application"
+      streams: ["stdout", "stderr"]
+    - name: "access"
+      streams: ["access.log"]
+    - name: "error"
+      streams: ["error.log"]
+    - name: "audit"
+      streams: ["audit.log"]

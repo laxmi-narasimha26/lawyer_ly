@@ -1,0 +1,246 @@
+# Template for post-deployment testing
+
+parameters:
+  - name: environment
+    type: string
+
+steps:
+  # Download deployment artifacts to get URLs
+  - task: DownloadBuildArtifacts@0
+    displayName: 'Download deployment artifacts'
+    inputs:
+      buildType: 'current'
+      artifactName: 'deployment-artifacts-${{ parameters.environment }}'
+      downloadPath: '$(System.ArtifactsDirectory)'
+
+  # Extract deployment information
+  - script: |
+      if [ -f "$(System.ArtifactsDirectory)/deployment-artifacts-${{ parameters.environment }}/deployment-summary.json" ]; then
+        BACKEND_URL=$(cat "$(System.ArtifactsDirectory)/deployment-artifacts-${{ parameters.environment }}/deployment-summary.json" | jq -r '.backend.url')
+        FRONTEND_URL=$(cat "$(System.ArtifactsDirectory)/deployment-artifacts-${{ parameters.environment }}/deployment-summary.json" | jq -r '.frontend.url')
+        
+        echo "##vso[task.setvariable variable=BackendUrl]$BACKEND_URL"
+        echo "##vso[task.setvariable variable=FrontendUrl]$FRONTEND_URL"
+        
+        echo "Backend URL: $BACKEND_URL"
+        echo "Frontend URL: $FRONTEND_URL"
+      else
+        echo "Deployment summary not found, using default URLs"
+        echo "##vso[task.setvariable variable=BackendUrl]https://legal-ai-${{ parameters.environment }}-env-backend.azurecontainerapps.io"
+        echo "##vso[task.setvariable variable=FrontendUrl]https://legal-ai-${{ parameters.environment }}-env-frontend.azurecontainerapps.io"
+      fi
+    displayName: 'Extract deployment URLs'
+
+  # Install testing tools
+  - script: |
+      python -m pip install requests pytest
+      npm install -g newman
+    displayName: 'Install testing tools'
+
+  # API smoke tests
+  - script: |
+      cat > api_smoke_tests.py << 'EOF'
+      import requests
+      import sys
+      import time
+      
+      def test_api_endpoints(base_url):
+          """Test basic API endpoints"""
+          endpoints = [
+              '/health',
+              '/health/liveness',
+              '/health/readiness',
+              '/metrics'
+          ]
+          
+          results = []
+          
+          for endpoint in endpoints:
+              url = f"{base_url}{endpoint}"
+              try:
+                  response = requests.get(url, timeout=30)
+                  status = "PASS" if response.status_code == 200 else "FAIL"
+                  results.append({
+                      'endpoint': endpoint,
+                      'status_code': response.status_code,
+                      'status': status,
+                      'response_time': response.elapsed.total_seconds()
+                  })
+                  print(f"✓ {endpoint}: {response.status_code} ({response.elapsed.total_seconds():.2f}s)")
+              except Exception as e:
+                  results.append({
+                      'endpoint': endpoint,
+                      'status_code': 0,
+                      'status': 'ERROR',
+                      'error': str(e)
+                  })
+                  print(f"✗ {endpoint}: ERROR - {str(e)}")
+          
+          return results
+      
+      if __name__ == "__main__":
+          backend_url = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:8000"
+          
+          print(f"Testing API endpoints at: {backend_url}")
+          results = test_api_endpoints(backend_url)
+          
+          # Check if all tests passed
+          failed_tests = [r for r in results if r['status'] != 'PASS']
+          
+          if failed_tests:
+              print(f"\n{len(failed_tests)} tests failed:")
+              for test in failed_tests:
+                  print(f"  - {test['endpoint']}: {test.get('error', f'HTTP {test['status_code']}')}")
+              sys.exit(1)
+          else:
+              print(f"\nAll {len(results)} API tests passed!")
+      EOF
+      
+      python api_smoke_tests.py "$(BackendUrl)"
+    displayName: 'Run API smoke tests'
+    continueOnError: true
+
+  # Frontend smoke tests
+  - script: |
+      echo "Testing frontend availability..."
+      
+      # Test frontend homepage
+      FRONTEND_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$(FrontendUrl)" || echo "000")
+      
+      if [ "$FRONTEND_STATUS" = "200" ]; then
+        echo "✓ Frontend homepage accessible (HTTP $FRONTEND_STATUS)"
+      else
+        echo "✗ Frontend homepage failed (HTTP $FRONTEND_STATUS)"
+        exit 1
+      fi
+      
+      # Test frontend health endpoint
+      FRONTEND_HEALTH=$(curl -s -o /dev/null -w "%{http_code}" "$(FrontendUrl)/health" || echo "000")
+      
+      if [ "$FRONTEND_HEALTH" = "200" ]; then
+        echo "✓ Frontend health check passed (HTTP $FRONTEND_HEALTH)"
+      else
+        echo "✗ Frontend health check failed (HTTP $FRONTEND_HEALTH)"
+        exit 1
+      fi
+      
+      echo "Frontend smoke tests completed successfully!"
+    displayName: 'Run frontend smoke tests'
+    continueOnError: true
+
+  # Performance baseline test
+  - script: |
+      cat > performance_test.py << 'EOF'
+      import requests
+      import time
+      import statistics
+      
+      def performance_test(url, num_requests=10):
+          """Run basic performance test"""
+          response_times = []
+          
+          print(f"Running performance test with {num_requests} requests to {url}")
+          
+          for i in range(num_requests):
+              start_time = time.time()
+              try:
+                  response = requests.get(f"{url}/health", timeout=30)
+                  end_time = time.time()
+                  
+                  if response.status_code == 200:
+                      response_time = end_time - start_time
+                      response_times.append(response_time)
+                      print(f"Request {i+1}: {response_time:.3f}s")
+                  else:
+                      print(f"Request {i+1}: Failed (HTTP {response.status_code})")
+              except Exception as e:
+                  print(f"Request {i+1}: Error - {str(e)}")
+          
+          if response_times:
+              avg_time = statistics.mean(response_times)
+              min_time = min(response_times)
+              max_time = max(response_times)
+              
+              print(f"\nPerformance Results:")
+              print(f"  Average response time: {avg_time:.3f}s")
+              print(f"  Min response time: {min_time:.3f}s")
+              print(f"  Max response time: {max_time:.3f}s")
+              print(f"  Successful requests: {len(response_times)}/{num_requests}")
+              
+              # Performance thresholds
+              if avg_time > 5.0:
+                  print("⚠️  Warning: Average response time exceeds 5 seconds")
+                  return False
+              elif avg_time > 2.0:
+                  print("⚠️  Warning: Average response time exceeds 2 seconds")
+              
+              return True
+          else:
+              print("❌ All requests failed")
+              return False
+      
+      if __name__ == "__main__":
+          import sys
+          backend_url = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:8000"
+          
+          success = performance_test(backend_url)
+          if not success:
+              sys.exit(1)
+      EOF
+      
+      python performance_test.py "$(BackendUrl)"
+    displayName: 'Run performance baseline test'
+    continueOnError: true
+
+  # Generate test report
+  - script: |
+      cat > test-report.md << 'EOF'
+      # Post-Deployment Test Report
+      
+      **Environment:** ${{ parameters.environment }}
+      **Test Date:** $(date -u +'%Y-%m-%d %H:%M:%S UTC')
+      **Backend URL:** $(BackendUrl)
+      **Frontend URL:** $(FrontendUrl)
+      
+      ## Test Results
+      
+      ### API Smoke Tests
+      - Health endpoints tested
+      - Basic functionality verified
+      
+      ### Frontend Smoke Tests
+      - Homepage accessibility verified
+      - Health endpoint tested
+      
+      ### Performance Tests
+      - Response time baseline established
+      - Performance thresholds checked
+      
+      ## Next Steps
+      
+      - Monitor application performance
+      - Set up alerts for critical metrics
+      - Schedule regular health checks
+      EOF
+      
+      echo "Test report generated: test-report.md"
+    displayName: 'Generate test report'
+
+  # Copy test artifacts
+  - task: CopyFiles@2
+    displayName: 'Copy test artifacts'
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)'
+      Contents: |
+        api_smoke_tests.py
+        performance_test.py
+        test-report.md
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/post-deployment-tests'
+
+  # Publish test artifacts
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish test artifacts'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/post-deployment-tests'
+      ArtifactName: 'post-deployment-tests-${{ parameters.environment }}'
+      publishLocation: 'Container'

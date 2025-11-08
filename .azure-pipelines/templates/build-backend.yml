@@ -1,0 +1,95 @@
+# Template for building the backend application
+
+parameters:
+  - name: buildConfiguration
+    type: string
+    default: 'Release'
+  - name: pythonVersion
+    type: string
+    default: '3.11'
+
+steps:
+  - task: UsePythonVersion@0
+    displayName: 'Use Python $(pythonVersion)'
+    inputs:
+      versionSpec: '${{ parameters.pythonVersion }}'
+      addToPath: true
+      architecture: 'x64'
+
+  - script: |
+      python -m pip install --upgrade pip
+      pip install -r backend/requirements.txt
+    displayName: 'Install Python dependencies'
+    workingDirectory: '$(Build.SourcesDirectory)'
+
+  - script: |
+      python -m pip install flake8 black isort mypy
+    displayName: 'Install development tools'
+
+  - script: |
+      cd backend
+      python -m flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+      python -m flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    displayName: 'Run Flake8 linting'
+    continueOnError: true
+
+  - script: |
+      cd backend
+      python -m black --check --diff .
+    displayName: 'Check code formatting with Black'
+    continueOnError: true
+
+  - script: |
+      cd backend
+      python -m isort --check-only --diff .
+    displayName: 'Check import sorting with isort'
+    continueOnError: true
+
+  - script: |
+      cd backend
+      python -m mypy . --ignore-missing-imports --no-strict-optional
+    displayName: 'Run type checking with MyPy'
+    continueOnError: true
+
+  - script: |
+      cd backend
+      python -c "import main; print('Backend application imports successfully')"
+    displayName: 'Validate backend application'
+
+  - task: PublishTestResults@2
+    displayName: 'Publish lint results'
+    condition: always()
+    inputs:
+      testResultsFiles: '**/lint-results.xml'
+      testRunTitle: 'Backend Lint Results'
+      failTaskOnFailedTests: false
+
+  - task: PublishCodeCoverageResults@1
+    displayName: 'Publish code coverage'
+    condition: always()
+    inputs:
+      codeCoverageTool: 'Cobertura'
+      summaryFileLocation: '**/coverage.xml'
+      failIfCoverageEmpty: false
+
+  - task: CopyFiles@2
+    displayName: 'Copy backend files to staging'
+    inputs:
+      SourceFolder: 'backend'
+      Contents: |
+        **/*
+        !**/__pycache__/**
+        !**/*.pyc
+        !**/tests/**
+        !**/test_*.py
+        !**/.pytest_cache/**
+        !**/logs/**
+        !**/temp/**
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/backend'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish backend artifacts'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/backend'
+      ArtifactName: 'backend'
+      publishLocation: 'Container'

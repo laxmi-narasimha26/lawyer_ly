@@ -1,0 +1,134 @@
+# Template for security scanning
+
+steps:
+  # Install security scanning tools
+  - script: |
+      # Install Bandit for Python security scanning
+      python -m pip install bandit[toml]
+      
+      # Install Safety for Python dependency vulnerability scanning
+      python -m pip install safety
+      
+      # Install npm audit for Node.js security scanning
+      npm install -g npm-audit-html
+    displayName: 'Install security scanning tools'
+
+  # Run Bandit security scan on Python code
+  - script: |
+      cd backend
+      python -m bandit -r . -f json -o bandit-report.json || true
+      python -m bandit -r . -f txt -o bandit-report.txt || true
+    displayName: 'Run Bandit security scan'
+    continueOnError: true
+
+  # Run Safety check for Python dependencies
+  - script: |
+      cd backend
+      python -m safety check --json --output safety-report.json || true
+      python -m safety check --output safety-report.txt || true
+    displayName: 'Run Safety dependency scan'
+    continueOnError: true
+
+  # Run npm audit for Node.js dependencies
+  - script: |
+      cd frontend
+      npm audit --json > npm-audit-report.json || true
+      npm audit > npm-audit-report.txt || true
+      npm-audit-html --input npm-audit-report.json --output npm-audit-report.html || true
+    displayName: 'Run npm audit'
+    continueOnError: true
+
+  # Run Semgrep static analysis (if available)
+  - script: |
+      # Install Semgrep
+      python -m pip install semgrep
+      
+      # Run Semgrep scan
+      semgrep --config=auto --json --output=semgrep-report.json . || true
+      semgrep --config=auto --output=semgrep-report.txt . || true
+    displayName: 'Run Semgrep static analysis'
+    continueOnError: true
+
+  # Check for secrets in code
+  - script: |
+      # Install detect-secrets
+      python -m pip install detect-secrets
+      
+      # Run detect-secrets scan
+      detect-secrets scan --all-files --baseline .secrets.baseline || true
+    displayName: 'Scan for secrets'
+    continueOnError: true
+
+  # Docker security scan (if Docker is available)
+  - script: |
+      # Install Trivy
+      sudo apt-get update
+      sudo apt-get install wget apt-transport-https gnupg lsb-release
+      wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+      echo "deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+      sudo apt-get update
+      sudo apt-get install trivy
+      
+      # Scan Dockerfiles
+      trivy config --format json --output dockerfile-scan.json . || true
+      trivy config --format table --output dockerfile-scan.txt . || true
+    displayName: 'Run Docker security scan'
+    continueOnError: true
+
+  # Generate security report summary
+  - script: |
+      cat > security-summary.md << 'EOF'
+      # Security Scan Summary
+      
+      ## Bandit (Python Security)
+      $(if [ -f backend/bandit-report.txt ]; then cat backend/bandit-report.txt | head -20; else echo "No Bandit report found"; fi)
+      
+      ## Safety (Python Dependencies)
+      $(if [ -f backend/safety-report.txt ]; then cat backend/safety-report.txt | head -20; else echo "No Safety report found"; fi)
+      
+      ## npm audit (Node.js Dependencies)
+      $(if [ -f frontend/npm-audit-report.txt ]; then cat frontend/npm-audit-report.txt | head -20; else echo "No npm audit report found"; fi)
+      
+      ## Semgrep (Static Analysis)
+      $(if [ -f semgrep-report.txt ]; then cat semgrep-report.txt | head -20; else echo "No Semgrep report found"; fi)
+      
+      ## Docker Security
+      $(if [ -f dockerfile-scan.txt ]; then cat dockerfile-scan.txt | head -20; else echo "No Docker scan report found"; fi)
+      EOF
+    displayName: 'Generate security summary'
+    continueOnError: true
+
+  # Copy security scan results
+  - task: CopyFiles@2
+    displayName: 'Copy security scan results'
+    condition: always()
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)'
+      Contents: |
+        backend/bandit-report.*
+        backend/safety-report.*
+        frontend/npm-audit-report.*
+        semgrep-report.*
+        dockerfile-scan.*
+        security-summary.md
+        .secrets.baseline
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/security-reports'
+
+  # Publish security scan artifacts
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish security scan artifacts'
+    condition: always()
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/security-reports'
+      ArtifactName: 'security-reports'
+      publishLocation: 'Container'
+
+  # Publish security scan results as test results (for visibility)
+  - task: PublishTestResults@2
+    displayName: 'Publish security scan results'
+    condition: always()
+    inputs:
+      testResultsFiles: '**/bandit-report.json'
+      testRunTitle: 'Security Scan Results'
+      failTaskOnFailedTests: false
+      testResultsFormat: 'JUnit'

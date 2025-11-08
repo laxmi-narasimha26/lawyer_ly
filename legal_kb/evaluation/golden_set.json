@@ -1,0 +1,1755 @@
+[
+  {
+    "question": "What does Section 1 of the Bharatiya Nyaya Sanhita, 2023 provide about short title commencement and application 1 this act may be called the bharatiya nyaya?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0001",
+      "BNS:2023:chunk:0001:part:1",
+      "BNS:2023:chunk:0001:part:2",
+      "BNS:2023:chunk:0001:part:4"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 2 of the Bharatiya Nyaya Sanhita, 2023 provide about definitions in this sanhita unless the context otherwise requires?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0002"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 3 of the Bharatiya Nyaya Sanhita, 2023 provide about general explanations?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0003",
+      "BNS:2023:chunk:0003:part:1",
+      "BNS:2023:chunk:0003:part:2"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 4 of the Bharatiya Nyaya Sanhita, 2023 provide about punishments the punishments to which offenders are liable under the provisions of this?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0004"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 5 of the Bharatiya Nyaya Sanhita, 2023 provide about commutation of sentence the appropriate government may without the consent of the?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0005"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 6 of the Bharatiya Nyaya Sanhita, 2023 provide about fractions of terms of punishment in calculating fractions of terms of punishment?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0006"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 7 of the Bharatiya Nyaya Sanhita, 2023 provide about sentence may be in certain cases of imprisonment wholly or partly rigorous or simple?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0007"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 8 of the Bharatiya Nyaya Sanhita, 2023 provide about amount of fine liability in default of payment of fine etc 1 where no?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0008"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 9 of the Bharatiya Nyaya Sanhita, 2023 provide about limit of punishment of offence made up of several offences 1 where anything which?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0009"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 10 of the Bharatiya Nyaya Sanhita, 2023 provide about punishment of person guilty of one of several offences judgment stating that it is?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0010"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 11 of the Bharatiya Nyaya Sanhita, 2023 provide about solitary confinement whenever any person is convicted of an offence for which under this?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0011"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 12 of the Bharatiya Nyaya Sanhita, 2023 provide about limit of solitary confinement in executing a sentence of solitary confinement such?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0012"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 13 of the Bharatiya Nyaya Sanhita, 2023 provide about enhanced punishment for certain offences after previous conviction?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0013"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 14 of the Bharatiya Nyaya Sanhita, 2023 provide about act done by a person bound or by mistake of fact believing himself bound?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0014"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 15 of the Bharatiya Nyaya Sanhita, 2023 provide about act of judge when acting judicially nothing is an offence which is done by?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0015"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 16 of the Bharatiya Nyaya Sanhita, 2023 provide about act done pursuant to judgment or order of court nothing which is done in?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0016"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 17 of the Bharatiya Nyaya Sanhita, 2023 provide about act done by a person justified or by mistake of fact believing himself justified?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0017"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 18 of the Bharatiya Nyaya Sanhita, 2023 provide about accident in doing a lawful act nothing is an offence which is done by?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0018"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 19 of the Bharatiya Nyaya Sanhita, 2023 provide about act likely to cause harm but done without criminal intent and to prevent other?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0019"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 20 of the Bharatiya Nyaya Sanhita, 2023 provide about act of a child under seven years of age nothing is an offence which?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0020"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 21 of the Bharatiya Nyaya Sanhita, 2023 provide about act of a child above seven and under twelve years of age of immature?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0021"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 22 of the Bharatiya Nyaya Sanhita, 2023 provide about act of a person of unsound mind nothing is an offence which is done?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0022"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 23 of the Bharatiya Nyaya Sanhita, 2023 provide about act of a person incapable of judgment by reason of intoxication caused against his?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0023"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 24 of the Bharatiya Nyaya Sanhita, 2023 provide about offence requiring a particular intent or knowledge committed by one who is intoxicated?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0024"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 25 of the Bharatiya Nyaya Sanhita, 2023 provide about act not intended and not known to be likely to cause death or grievous?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0025"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 26 of the Bharatiya Nyaya Sanhita, 2023 provide about act not intended to cause death done by consent in good faith for persons?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0026"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 27 of the Bharatiya Nyaya Sanhita, 2023 provide about act done in good faith for benefit of child or person of unsound mind?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0027"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 28 of the Bharatiya Nyaya Sanhita, 2023 provide about consent known to be given under fear or misconception a consent is not such?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0028"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 29 of the Bharatiya Nyaya Sanhita, 2023 provide about exclusion of acts which are offences independently of harm caused the exceptions in?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0029"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 30 of the Bharatiya Nyaya Sanhita, 2023 provide about act done in good faith for benefit of a person without consent nothing is?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0030"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 31 of the Bharatiya Nyaya Sanhita, 2023 provide about communication made in good faith no communication made in good faith is an offence?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0031"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 32 of the Bharatiya Nyaya Sanhita, 2023 provide about act to which a person is compelled by threats except murder and offences against?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0032"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 33 of the Bharatiya Nyaya Sanhita, 2023 provide about act causing slight harm?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0033"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 34 of the Bharatiya Nyaya Sanhita, 2023 provide about things done in private defence nothing is an offence which is done in the?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0034"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 35 of the Bharatiya Nyaya Sanhita, 2023 provide about right of private defence of body and of property every person has a right?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0035"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 36 of the Bharatiya Nyaya Sanhita, 2023 provide about right of private defence against act of a person of unsound mind etc when?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0036"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 37 of the Bharatiya Nyaya Sanhita, 2023 provide about acts against which there is no right of private defence 1 there is no?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0037"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 38 of the Bharatiya Nyaya Sanhita, 2023 provide about when right of private defence of body extends to causing death the right of?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0038"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 39 of the Bharatiya Nyaya Sanhita, 2023 provide about when such right extends to causing any harm other than death if the offence?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0039"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 40 of the Bharatiya Nyaya Sanhita, 2023 provide about commencement and continuance of right of private defence of body the right of private?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0040"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 41 of the Bharatiya Nyaya Sanhita, 2023 provide about when right of private defence of property extends to causing death the right of?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0041"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 42 of the Bharatiya Nyaya Sanhita, 2023 provide about when such right extends to causing any harm other than death if the offence?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0042"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 43 of the Bharatiya Nyaya Sanhita, 2023 provide about commencement and continuance of right of private defence of property the right of?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0043"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 44 of the Bharatiya Nyaya Sanhita, 2023 provide about right of private defence against deadly assault when there is risk of harm to?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0044"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 45 of the Bharatiya Nyaya Sanhita, 2023 provide about abetment of a thing a person abets the doing of a thing who?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0045"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 46 of the Bharatiya Nyaya Sanhita, 2023 provide about abettor a person abets an offence who abets either the commission of an offence?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0046:part:1",
+      "BNS:2023:chunk:0046:part:2"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 47 of the Bharatiya Nyaya Sanhita, 2023 provide about abetment in india of offences outside india a person abets an offence within the?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0047"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 48 of the Bharatiya Nyaya Sanhita, 2023 provide about abetment outside india for offence in india a person abets an offence within the?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0048"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 49 of the Bharatiya Nyaya Sanhita, 2023 provide about punishment of abetment if act abetted is committed in consequence and where no express?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0049"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 50 of the Bharatiya Nyaya Sanhita, 2023 provide about punishment of abetment if person abetted does act with different intention from that of?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0050"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 51 of the Bharatiya Nyaya Sanhita, 2023 provide about liability of abettor when one act abetted and different act done when an act?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0051"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 52 of the Bharatiya Nyaya Sanhita, 2023 provide about abettor when liable to cumulative punishment for act abetted and for act done if?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0052"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 53 of the Bharatiya Nyaya Sanhita, 2023 provide about liability of abettor for an effect caused by act abetted different from that intended?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0053"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 54 of the Bharatiya Nyaya Sanhita, 2023 provide about abettor present when offence is committed whenever any person who is absent would be?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0054"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 55 of the Bharatiya Nyaya Sanhita, 2023 provide about abetment of offence punishable with death or imprisonment for life whoever abets the?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0055"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 56 of the Bharatiya Nyaya Sanhita, 2023 provide about abetment of offence punishable with imprisonment whoever abets an offence punishable?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0056"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 57 of the Bharatiya Nyaya Sanhita, 2023 provide about abetting commission of offence by public or by more than ten persons whoever abets?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0057"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 58 of the Bharatiya Nyaya Sanhita, 2023 provide about concealing design to commit offence punishable with death or imprisonment for life?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0058"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 59 of the Bharatiya Nyaya Sanhita, 2023 provide about public servant concealing design to commit offence which it is his duty to prevent?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0059"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 60 of the Bharatiya Nyaya Sanhita, 2023 provide about concealing design to commit offence punishable with imprisonment?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0060"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 61 of the Bharatiya Nyaya Sanhita, 2023 provide about criminal conspiracy?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0061"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 62 of the Bharatiya Nyaya Sanhita, 2023 provide about punishment for attempting to commit offences punishable with imprisonment for life or other?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0062"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 63 of the Bharatiya Nyaya Sanhita, 2023 provide about rape a man is said to commit rape if he?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0063"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 64 of the Bharatiya Nyaya Sanhita, 2023 provide about punishment for rape 1 whoever except in the cases provided for in sub section?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0064"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 65 of the Bharatiya Nyaya Sanhita, 2023 provide about punishment for rape in certain cases 1 whoever commits rape on a woman under?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0065"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 66 of the Bharatiya Nyaya Sanhita, 2023 provide about punishment for causing death or resulting in persistent vegetative state of victim?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0066"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 67 of the Bharatiya Nyaya Sanhita, 2023 provide about sexual intercourse by husband upon his wife during separation whoever has sexual?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0067"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 68 of the Bharatiya Nyaya Sanhita, 2023 provide about sexual intercourse by a person in authority whoever being?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0068"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 69 of the Bharatiya Nyaya Sanhita, 2023 provide about sexual intercourse by employing deceitful means etc whoever by deceitful means or by?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0069"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 70 of the Bharatiya Nyaya Sanhita, 2023 provide about gang rape 1 where a woman is raped by one or more persons constituting?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0070"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 71 of the Bharatiya Nyaya Sanhita, 2023 provide about punishment for repeat offenders whoever has been previously convicted of an offence?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0071"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 72 of the Bharatiya Nyaya Sanhita, 2023 provide about disclosure of identity of victim of certain offences etc 1 whoever prints or publishes?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0072"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 73 of the Bharatiya Nyaya Sanhita, 2023 provide about printing or publishing any matter relating to court proceedings without permission?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0073"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 74 of the Bharatiya Nyaya Sanhita, 2023 provide about assault or use of criminal force to woman with intent to outrage her modesty?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0074"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 75 of the Bharatiya Nyaya Sanhita, 2023 provide about sexual harassment 1 a man committing any of the following acts?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0075"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 76 of the Bharatiya Nyaya Sanhita, 2023 provide about assault or use of criminal force to woman with intent to disrobe whoever assaults?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0076"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 77 of the Bharatiya Nyaya Sanhita, 2023 provide about voyeurism whoever watches or captures the image of a woman engaging in a private?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0077"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 78 of the Bharatiya Nyaya Sanhita, 2023 provide about stalking 1 any man who?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0078"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 79 of the Bharatiya Nyaya Sanhita, 2023 provide about word gesture or act intended to insult modesty of a woman?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0079"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 80 of the Bharatiya Nyaya Sanhita, 2023 provide about dowry death 1 where the death of a woman is caused by any burns?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0080"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 81 of the Bharatiya Nyaya Sanhita, 2023 provide about cohabitation caused by man deceitfully inducing belief of lawful marriage every man who?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0081"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 82 of the Bharatiya Nyaya Sanhita, 2023 provide about marrying again during lifetime of husband or wife 1 whoever having a husband or?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0082"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 83 of the Bharatiya Nyaya Sanhita, 2023 provide about marriage ceremony fraudulently gone through without lawful marriage whoever?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0083"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 84 of the Bharatiya Nyaya Sanhita, 2023 provide about enticing or taking away or detaining with criminal intent a married woman whoever?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0084"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 85 of the Bharatiya Nyaya Sanhita, 2023 provide about husband or relative of husband of a woman subjecting her to cruelty whoever being?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0085"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 86 of the Bharatiya Nyaya Sanhita, 2023 provide about cruelty defined for the purposes of section 85 cruelty means?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0086"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 87 of the Bharatiya Nyaya Sanhita, 2023 provide about kidnapping abducting or inducing woman to compel her marriage etc?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0087"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 88 of the Bharatiya Nyaya Sanhita, 2023 provide about causing miscarriage whoever voluntarily causes a woman with child to miscarry shall if?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0088"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 89 of the Bharatiya Nyaya Sanhita, 2023 provide about causing miscarriage without womans consent whoever commits the offence under?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0089"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 90 of the Bharatiya Nyaya Sanhita, 2023 provide about death caused by act done with intent to cause miscarriage 1 whoever with intent?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0090"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 91 of the Bharatiya Nyaya Sanhita, 2023 provide about act done with intent to prevent child being born alive or to cause to?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0091"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 92 of the Bharatiya Nyaya Sanhita, 2023 provide about causing death of quick unborn child by act amounting to culpable homicide?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0092"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 93 of the Bharatiya Nyaya Sanhita, 2023 provide about exposure and abandonment of child under twelve years of age by parent or person?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0093"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 94 of the Bharatiya Nyaya Sanhita, 2023 provide about concealment of birth by secret disposal of dead body whoever by secretly burying or?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0094"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 95 of the Bharatiya Nyaya Sanhita, 2023 provide about hiring employing or engaging a child to commit an offence whoever hires employs or?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0095"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 96 of the Bharatiya Nyaya Sanhita, 2023 provide about procuration of child whoever by any means whatsoever induces any child to go from?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0096"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 97 of the Bharatiya Nyaya Sanhita, 2023 provide about kidnapping or abducting child under ten years of age with intent to steal from?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0097"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 98 of the Bharatiya Nyaya Sanhita, 2023 provide about selling child for purposes of prostitution etc whoever sells lets to hire or otherwise?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0098"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 99 of the Bharatiya Nyaya Sanhita, 2023 provide about buying child for purposes of prostitution etc?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0099"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 100 of the Bharatiya Nyaya Sanhita, 2023 provide about culpable homicide whoever causes death by doing an act with the intention of causing?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0100"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 101 of the Bharatiya Nyaya Sanhita, 2023 provide about murder except in the cases hereinafter excepted culpable homicide is murder?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0101:part:2"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 102 of the Bharatiya Nyaya Sanhita, 2023 provide about culpable homicide by causing death of person other than person whose death was?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0102"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 103 of the Bharatiya Nyaya Sanhita, 2023 provide about punishment for murder 1 whoever commits murder shall be punished with death or?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0103"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 104 of the Bharatiya Nyaya Sanhita, 2023 provide about punishment for murder by life convict whoever being under sentence of imprisonment for?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0104"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 105 of the Bharatiya Nyaya Sanhita, 2023 provide about punishment for culpable homicide not amounting to murder whoever commits culpable?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0105"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 106 of the Bharatiya Nyaya Sanhita, 2023 provide about causing death by negligence 1 whoever causes death of any person by doing any?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0106"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 107 of the Bharatiya Nyaya Sanhita, 2023 provide about abetment of suicide of child or person of unsound mind if any child any?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0107"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 108 of the Bharatiya Nyaya Sanhita, 2023 provide about abetment of suicide if any person commits suicide whoever abets the commission of such?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0108"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 109 of the Bharatiya Nyaya Sanhita, 2023 provide about attempt to murder 1 whoever does any act with such intention or knowledge and?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0109"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 110 of the Bharatiya Nyaya Sanhita, 2023 provide about attempt to commit culpable homicide whoever does any act with such intention or?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0110"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 111 of the Bharatiya Nyaya Sanhita, 2023 provide about organised crime 1 any continuing unlawful activity including kidnapping robbery?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0111:part:1",
+      "BNS:2023:chunk:0111:part:2"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 112 of the Bharatiya Nyaya Sanhita, 2023 provide about petty organised crime 1 whoever being a member of a group or gang either?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0112"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 113 of the Bharatiya Nyaya Sanhita, 2023 provide about terrorist act?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0113",
+      "BNS:2023:chunk:0113:part:1",
+      "BNS:2023:chunk:0113:part:2"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 115 of the Bharatiya Nyaya Sanhita, 2023 provide about voluntarily causing hurt 1 whoever does any act with the intention of thereby causing?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0115"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 116 of the Bharatiya Nyaya Sanhita, 2023 provide about grievous hurt the following kinds of hurt only are designated as grievous namely?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0116"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 117 of the Bharatiya Nyaya Sanhita, 2023 provide about voluntarily causing grievous hurt 1 whoever voluntarily causes hurt if the hurt which he?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0117"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 118 of the Bharatiya Nyaya Sanhita, 2023 provide about voluntarily causing hurt or grievous hurt by dangerous weapons or means 1 whoever?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0118"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 119 of the Bharatiya Nyaya Sanhita, 2023 provide about voluntarily causing hurt or grievous hurt to extort property or to constrain to an?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0119"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 120 of the Bharatiya Nyaya Sanhita, 2023 provide about voluntarily causing hurt or grievous hurt to extort confession or to compel restoration of?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0120"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 121 of the Bharatiya Nyaya Sanhita, 2023 provide about voluntarily causing hurt or grievous hurt to deter public servant from his duty 1?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0121"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 122 of the Bharatiya Nyaya Sanhita, 2023 provide about voluntarily causing hurt or grievous hurt on provocation 1 whoever voluntarily causes?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0122"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 123 of the Bharatiya Nyaya Sanhita, 2023 provide about causing hurt by means of poison etc with intent to commit an offence whoever?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0123"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 124 of the Bharatiya Nyaya Sanhita, 2023 provide about voluntarily causing grievous hurt by use of acid etc 1 whoever causes permanent or?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0124"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 125 of the Bharatiya Nyaya Sanhita, 2023 provide about act endangering life or personal safety of others?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0125"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 126 of the Bharatiya Nyaya Sanhita, 2023 provide about wrongful restraint 1 whoever voluntarily obstructs any person so as to prevent that person?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0126"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 127 of the Bharatiya Nyaya Sanhita, 2023 provide about wrongful confinement?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0127"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 128 of the Bharatiya Nyaya Sanhita, 2023 provide about force a person is said to use force to another if he causes motion?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0128"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 129 of the Bharatiya Nyaya Sanhita, 2023 provide about criminal force whoever intentionally uses force to any person without that persons?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0129:part:1"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 130 of the Bharatiya Nyaya Sanhita, 2023 provide about assault whoever makes any gesture or any preparation intending or knowing it to be?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0130"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 131 of the Bharatiya Nyaya Sanhita, 2023 provide about punishment for assault or criminal force otherwise than on grave provocation whoever?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0131"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 132 of the Bharatiya Nyaya Sanhita, 2023 provide about assault or criminal force to deter public servant from discharge of his duty whoever?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0132"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 133 of the Bharatiya Nyaya Sanhita, 2023 provide about assault or criminal force with intent to dishonour person otherwise than on grave?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0133"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 134 of the Bharatiya Nyaya Sanhita, 2023 provide about assault or criminal force in attempt to commit theft of property carried by a?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0134"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 135 of the Bharatiya Nyaya Sanhita, 2023 provide about assault or criminal force in attempt to wrongfully confine a person whoever assaults or?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0135"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 136 of the Bharatiya Nyaya Sanhita, 2023 provide about assault or criminal force on grave provocation?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0136"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 137 of the Bharatiya Nyaya Sanhita, 2023 provide about kidnapping 1 kidnapping is of two kinds kidnapping from india and kidnapping from?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0137"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 138 of the Bharatiya Nyaya Sanhita, 2023 provide about abduction whoever by force compels or by any deceitful means induces any person to?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0138"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 139 of the Bharatiya Nyaya Sanhita, 2023 provide about kidnapping or maiming a child for purposes of begging 1 whoever kidnaps any child?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0139"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 140 of the Bharatiya Nyaya Sanhita, 2023 provide about kidnapping or abducting in order to murder or for ransom etc 1 whoever kidnaps?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0140"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 141 of the Bharatiya Nyaya Sanhita, 2023 provide about importation of girl or boy from foreign country whoever imports into india from any?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0141"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 142 of the Bharatiya Nyaya Sanhita, 2023 provide about wrongfully concealing or keeping in confinement kidnapped or abducted person?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0142"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 143 of the Bharatiya Nyaya Sanhita, 2023 provide about trafficking of person 1 whoever for the purpose of exploitation recruits transports?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0143"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 144 of the Bharatiya Nyaya Sanhita, 2023 provide about exploitation of a trafficked person 1 whoever knowingly or having reason to believe that?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0144"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 145 of the Bharatiya Nyaya Sanhita, 2023 provide about habitual dealing in slaves whoever habitually imports exports removes buys sells traffics?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0145"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 146 of the Bharatiya Nyaya Sanhita, 2023 provide about unlawful compulsory labour?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0146"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 147 of the Bharatiya Nyaya Sanhita, 2023 provide about waging or attempting to wage war or abetting waging of war against government of?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0147"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 148 of the Bharatiya Nyaya Sanhita, 2023 provide about conspiracy to commit offences punishable by section 147 whoever within or without and?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0148"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 149 of the Bharatiya Nyaya Sanhita, 2023 provide about collecting arms etc with intention of waging war against government of india?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0149"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 150 of the Bharatiya Nyaya Sanhita, 2023 provide about concealing with intent to facilitate design to wage war whoever by any act or?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0150"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 151 of the Bharatiya Nyaya Sanhita, 2023 provide about assaulting president governor etc with intent to compel or restrain exercise of any lawful?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0151"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 152 of the Bharatiya Nyaya Sanhita, 2023 provide about act endangering sovereignty unity and integrity of india whoever purposely or?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0152"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 153 of the Bharatiya Nyaya Sanhita, 2023 provide about waging war against government of any foreign state at peace with government of?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0153"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 154 of the Bharatiya Nyaya Sanhita, 2023 provide about committing depredation on territories of foreign state at peace with government of?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0154"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 155 of the Bharatiya Nyaya Sanhita, 2023 provide about receiving property taken by war or depredation mentioned in sections 153 and 154?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0155"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 156 of the Bharatiya Nyaya Sanhita, 2023 provide about public servant voluntarily allowing prisoner of state or war to escape whoever being a?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0156"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 157 of the Bharatiya Nyaya Sanhita, 2023 provide about public servant negligently suffering such prisoner to escape whoever being a public?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0157"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 158 of the Bharatiya Nyaya Sanhita, 2023 provide about aiding escape of rescuing or harbouring such prisoner?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0158"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 159 of the Bharatiya Nyaya Sanhita, 2023 provide about abetting mutiny or attempting to seduce a soldier sailor or airman from his duty?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0159"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 160 of the Bharatiya Nyaya Sanhita, 2023 provide about abetment of mutiny if mutiny is committed in consequence thereof whoever abets the?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0160"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 161 of the Bharatiya Nyaya Sanhita, 2023 provide about abetment of assault by soldier sailor or airman on his superior officer when in?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0161"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 162 of the Bharatiya Nyaya Sanhita, 2023 provide about abetment of such assault if assault committed whoever abets an assault by an officer?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0162"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 163 of the Bharatiya Nyaya Sanhita, 2023 provide about abetment of desertion of soldier sailor or airman whoever abets the desertion of any?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0163"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 164 of the Bharatiya Nyaya Sanhita, 2023 provide about harbouring deserter whoever except as hereinafter excepted knowing or having reason to?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0164"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 165 of the Bharatiya Nyaya Sanhita, 2023 provide about deserter concealed on board merchant vessel through negligence of master the master or?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0165"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 166 of the Bharatiya Nyaya Sanhita, 2023 provide about abetment of act of insubordination by soldier sailor or airman whoever abets what he?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0166"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 167 of the Bharatiya Nyaya Sanhita, 2023 provide about persons subject to certain acts no person subject to the air force act 1950?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0167"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 168 of the Bharatiya Nyaya Sanhita, 2023 provide about wearing garb or carrying token used by soldier sailor or airman?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0168"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 169 of the Bharatiya Nyaya Sanhita, 2023 provide about candidate electoral right defined for the purposes of this chapter?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0169"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 170 of the Bharatiya Nyaya Sanhita, 2023 provide about bribery 1 whoever?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0170"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 171 of the Bharatiya Nyaya Sanhita, 2023 provide about undue influence at elections 1 whoever voluntarily interferes or attempts to interfere with?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0171"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 172 of the Bharatiya Nyaya Sanhita, 2023 provide about personation at elections whoever at an election applies for a voting paper on votes?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0172"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 173 of the Bharatiya Nyaya Sanhita, 2023 provide about punishment for bribery whoever commits the offence of bribery shall be punished with?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0173"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 174 of the Bharatiya Nyaya Sanhita, 2023 provide about punishment for undue influence or personation at an election whoever commits the?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0174"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 175 of the Bharatiya Nyaya Sanhita, 2023 provide about false statement in connection with an election whoever with intent to affect the result?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0175"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 176 of the Bharatiya Nyaya Sanhita, 2023 provide about illegal payments in connection with an election whoever without the general or special?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0176"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 177 of the Bharatiya Nyaya Sanhita, 2023 provide about failure to keep election accounts?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0177"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 178 of the Bharatiya Nyaya Sanhita, 2023 provide about counterfeiting coin government stamps currency notes or bank notes whoever?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0178"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 179 of the Bharatiya Nyaya Sanhita, 2023 provide about using as genuine forged or counterfeit coin government stamp currency notes or?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0179"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 180 of the Bharatiya Nyaya Sanhita, 2023 provide about possession of forged or counterfeit coin government stamp currency notes or banknotes whoever has?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0180"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 181 of the Bharatiya Nyaya Sanhita, 2023 provide about making or possessing instruments or materials for forging or counterfeiting coin?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0181"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 182 of the Bharatiya Nyaya Sanhita, 2023 provide about making or using documents resembling currency notes or bank notes 1 whoever?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0182"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 183 of the Bharatiya Nyaya Sanhita, 2023 provide about effacing writing from substance bearing government stamp or removing from document a?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0183"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 184 of the Bharatiya Nyaya Sanhita, 2023 provide about using government stamp known to have been before used whoever fraudulently or with?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0184"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 185 of the Bharatiya Nyaya Sanhita, 2023 provide about erasure of mark denoting that stamp has been used whoever fraudulently or with intent?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0185"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 186 of the Bharatiya Nyaya Sanhita, 2023 provide about prohibition of fictitious stamps 1 whoever?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0186"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 187 of the Bharatiya Nyaya Sanhita, 2023 provide about person employed in mint causing coin to be of different weight or composition from?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0187"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 188 of the Bharatiya Nyaya Sanhita, 2023 provide about unlawfully taking coining instrument from mint?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0188"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 189 of the Bharatiya Nyaya Sanhita, 2023 provide about unlawful assembly 1 an assembly of five or more persons is designated an unlawful?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0189:part:1",
+      "BNS:2023:chunk:0189:part:2"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 190 of the Bharatiya Nyaya Sanhita, 2023 provide about every member of unlawful assembly guilty of offence committed in prosecution of common?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0190"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 191 of the Bharatiya Nyaya Sanhita, 2023 provide about rioting 1 whenever force or violence is used by an unlawful assembly or by?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0191"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 192 of the Bharatiya Nyaya Sanhita, 2023 provide about wantonly giving provocation with intent to cause riot if rioting be committed if not?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0192"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 193 of the Bharatiya Nyaya Sanhita, 2023 provide about liability of owner occupier etc of land on which an unlawful assembly or riot?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0193"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 194 of the Bharatiya Nyaya Sanhita, 2023 provide about affray 1 when two or more persons by fighting in a public place disturb?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0194"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 195 of the Bharatiya Nyaya Sanhita, 2023 provide about assaulting or obstructing public servant when suppressing riot etc 1 whoever assaults?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0195"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 196 of the Bharatiya Nyaya Sanhita, 2023 provide about promoting enmity between different groups on grounds of religion race place of birth?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0196"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 197 of the Bharatiya Nyaya Sanhita, 2023 provide about imputations assertions prejudicial to national integration?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0197"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 198 of the Bharatiya Nyaya Sanhita, 2023 provide about public servant disobeying law with intent to cause injury to any person whoever being?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0198"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 199 of the Bharatiya Nyaya Sanhita, 2023 provide about public servant disobeying direction under law whoever being a public servant?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0199"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 200 of the Bharatiya Nyaya Sanhita, 2023 provide about punishment for non treatment of victim whoever being in charge of a hospital public?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0200"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What does Section 201 of the Bharatiya Nyaya Sanhita, 2023 provide about public servant framing an incorrect document with intent to cause injury whoever?",
+    "expected_statutes": [
+      "BNS:2023:chunk:0201"
+    ],
+    "expected_cases": []
+  },
+  {
+    "question": "What did the Supreme Court hold on anticipatory bail safeguards in PARVEZ NOORDIN LOKHANDWALLA v. STATE OF MAHARASHTRA & ANR?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_11_117_135_EN:chunk:0005"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on regular bail principles in PARVEZ NOORDIN LOKHANDWALLA v. STATE OF MAHARASHTRA & ANR?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_11_117_135_EN:chunk:0007"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on interim bail conditions in PARVEZ NOORDIN LOKHANDWALLA v. STATE OF MAHARASHTRA & ANR?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_11_117_135_EN:chunk:0001"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on default bail rights under the Code in BIKRAMJIT SINGH v. THE STATE OF PUNJAB?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_12_875_914_EN:chunk:0001"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on admissibility of electronic evidence in ARJUN PANDITRAO KHOTKAR v. KAILASH KUSHANRAO GORANTYAL AND ORS?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_7_180_282_EN:chunk:0002"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on investigation of cyber offences in SC:2020:2020_10_299_362_EN?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_299_362_EN:chunk:0063"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on PMLA compliance obligations in INTERNET AND MOBILE ASSOCIATION OF INDIA v. RESERVE BANK OF INDIA?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_2_297_443_EN:chunk:0029"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on Article 14 equality guarantee in VINEETA SHARMA v. RAKESH SHARMA & ORS?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_135_237_EN:chunk:0058"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on Article 21 protection of life and personal liberty in VINAY SHARMA v. UNION OF INDIA AND OTHERS?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_393_409_EN:chunk:0005"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on Article 19 freedoms in SC:2020:2020_10_433_496_EN?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_433_496_EN:chunk:0044"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on Article 32 writ jurisdiction in SC:2020:2020_10_299_362_EN?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_299_362_EN:chunk:0014"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on Article 136 special leave jurisdiction in VINEETA SHARMA v. RAKESH SHARMA & ORS?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_135_237_EN:chunk:0085"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on Article 141 binding precedent in SATISH CHANDER AHUJA v. SNEHA AHUJA?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_12_189_278_EN:chunk:0026"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on Article 142 complete justice power in MRS RITIKA SHARAN v. MR SUJOY GHOSH?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_363_374_EN:chunk:0002"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on Article 226 high court writ power in CHIEF EXECUTIVE OFFICER AND VICE CHAIRMAN GUJARAT MARITIME BOARD v. ASIATIC STEEL INDUSTRIES LTD AND ORS?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_375_392_EN:chunk:0010"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on Article 300A property rights in MEHTA v. UNION OF INDIA & ORS?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_718_790_EN:chunk:0001"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on principles of natural justice in SOMU v. THE STATE REP?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_27_134_EN:chunk:0062"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on domestic violence safeguards in MRS RITIKA SHARAN v. MR SUJOY GHOSH?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_363_374_EN:chunk:0001"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on dowry harassment prosecution in VANITHA v. THE DEPUTY COMMISSIONER?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_12_1057_1089_EN:chunk:0031"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on sexual harassment at workplace in NISHA PRIYA BHATIA v. UNION OF INDIA & ANR?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_596_676_EN:chunk:0001"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on rape sentencing principles in VINAY SHARMA v. UNION OF INDIA AND OTHERS?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_393_409_EN:chunk:0003"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on acid attack compensation in PRATHVI RAJ CHAUHAN v. UNION OF INDIA & OTHERS?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_2_727_762_EN:chunk:0015"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on organised crime legislation in UNION OF INDIA v. ASHOK KUMAR SHARMA AND OTHERS?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_923_1042_EN:chunk:0062"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on economic offence bail considerations in SC:2020:2020_10_791_856_EN?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_791_856_EN:chunk:0017"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on juvenile justice interpretation in BHOOREY v. STATE OF UTTAR PRADESH?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_12_128_150_EN:chunk:0001"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on juvenile in conflict jurisprudence in BHOOREY v. STATE OF UTTAR PRADESH?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_12_128_150_EN:chunk:0004"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on habeas corpus remedy in SOMU v. THE STATE REP?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_27_134_EN:chunk:0031"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on custodial violence safeguards in GHANSHYAM UPADHYAY v. STATE OF U?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_6_983_990_EN:chunk:0006"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on whistleblower protections in SC:2020:2020_8_510_582_EN?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_8_510_582_EN:chunk:0026"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on environmental clearance review in SC:2020:2020_10_677_717_EN?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_677_717_EN:chunk:0003"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on forest conservation compliance in HANUMAN LAXMAN AROOSKAR v. UNION OF INDIA & ORS?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_1_1030_1090_EN:chunk:0047"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on tax evasion penalties in TOFAN SINGH v. STATE OF TAMIL NADU?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_12_583_874_EN:chunk:0174"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on GST liability dispute in VINEETA SHARMA v. RAKESH SHARMA & ORS?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_135_237_EN:chunk:0046"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on transfer pricing adjustments in SC:2020:2020_11_200_243_EN?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_11_200_243_EN:chunk:0009"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on IBC resolution principles in SC:2020:2020_10_791_856_EN?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_791_856_EN:chunk:0024"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on arbitration enforcement in SC:2020:2020_10_791_856_EN?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_791_856_EN:chunk:0001"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on specific performance relief in SC:2020:2020_10_791_856_EN?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_791_856_EN:chunk:0025"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on maintenance rights under criminal law in VINEETA SHARMA v. RAKESH SHARMA & ORS?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_135_237_EN:chunk:0029"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on child custody and guardianship in SOMU v. THE STATE REP?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_27_134_EN:chunk:0064"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on medical negligence standard in SC:2020:2020_6_1_7_EN?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_6_1_7_EN:chunk:0001"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on insurance claim repudiation in SC:2020:2020_1_408_416_EN?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_1_408_416_EN:chunk:0001"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on motor accident compensation in THE NEW INDIA ASSURANCE COMPANY LIMITED v. SMT?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_1132_1150_EN:chunk:0004"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on contempt jurisdiction in MEHTA v. UNION OF INDIA & ORS?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_718_790_EN:chunk:0029"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on court fee computation in SC:2020:2020_11_59_116_EN?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_11_59_116_EN:chunk:0004"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on limitation period computation in SC:2020:2020_10_1043_1074_EN?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_1043_1074_EN:chunk:0005"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on res judicata application in SC:2020:2020_10_433_496_EN?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_433_496_EN:chunk:0005"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on stare decisis doctrine in Chinnaiah v. State of A?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_857_922_EN:chunk:0006"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on per incuriam ruling in SC:2020:2020_10_791_856_EN?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_10_791_856_EN:chunk:0030"
+    ]
+  },
+  {
+    "question": "What did the Supreme Court hold on locus standi requirements in CENTRE FOR PUBLIC INTEREST LITIGATION v. UNION OF INDIA?",
+    "expected_statutes": [],
+    "expected_cases": [
+      "SC:2020:2020_11_425_470_EN:chunk:0022"
+    ]
+  }
+]

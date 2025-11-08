@@ -1,0 +1,88 @@
+{
+  "timestamp": "2025-11-03T05:49:16.933034",
+  "total_tests": 13,
+  "passed_tests": 3,
+  "failed_tests": 10,
+  "critical_failures": 8,
+  "test_results": {
+    "Encryption Service Import": {
+      "status": "FAIL",
+      "message": "No module named 'azure'",
+      "critical": true,
+      "timestamp": "2025-11-03T05:49:17.180860"
+    },
+    "Valid Query Processing": {
+      "status": "PASS",
+      "message": "",
+      "critical": false,
+      "timestamp": "2025-11-03T05:49:17.494068"
+    },
+    "SQL Injection Detection": {
+      "status": "FAIL",
+      "message": "Query validation failed: Input contains potentially malicious content",
+      "critical": true,
+      "timestamp": "2025-11-03T05:49:17.494068"
+    },
+    "XSS Detection": {
+      "status": "FAIL",
+      "message": "Query validation failed: Input contains potentially malicious content",
+      "critical": true,
+      "timestamp": "2025-11-03T05:49:17.494068"
+    },
+    "File Upload Validation": {
+      "status": "PASS",
+      "message": "",
+      "critical": false,
+      "timestamp": "2025-11-03T05:49:17.495068"
+    },
+    "Email Validation": {
+      "status": "PASS",
+      "message": "",
+      "critical": false,
+      "timestamp": "2025-11-03T05:49:17.495068"
+    },
+    "Audit Logging Service Import": {
+      "status": "FAIL",
+      "message": "cannot import name 'get_db_session' from 'database' (C:\\Users\\user\\lawyer_ly\\backend\\database\\__init__.py)",
+      "critical": true,
+      "timestamp": "2025-11-03T05:49:17.553999"
+    },
+    "Compliance Service Import": {
+      "status": "FAIL",
+      "message": "cannot import name 'get_db_session' from 'database' (C:\\Users\\user\\lawyer_ly\\backend\\database\\__init__.py)",
+      "critical": true,
+      "timestamp": "2025-11-03T05:49:17.555593"
+    },
+    "API Endpoints Import": {
+      "status": "FAIL",
+      "message": "cannot import name 'get_db_session' from 'database' (C:\\Users\\user\\lawyer_ly\\backend\\database\\__init__.py)",
+      "critical": true,
+      "timestamp": "2025-11-03T05:49:17.556598"
+    },
+    "Security Configuration": {
+      "status": "FAIL",
+      "message": "module 'config.settings' has no attribute 'security'",
+      "critical": true,
+      "timestamp": "2025-11-03T05:49:17.557726"
+    },
+    "File Upload Security": {
+      "status": "FAIL",
+      "message": "module 'config.settings' has no attribute 'security'",
+      "critical": false,
+      "timestamp": "2025-11-03T05:49:17.557726"
+    },
+    "Rate Limiting Configuration": {
+      "status": "FAIL",
+      "message": "module 'config.settings' has no attribute 'rate_limit'",
+      "critical": false,
+      "timestamp": "2025-11-03T05:49:17.557726"
+    },
+    "Integration Test Setup": {
+      "status": "FAIL",
+      "message": "No module named 'azure'",
+      "critical": true,
+      "timestamp": "2025-11-03T05:49:17.559723"
+    }
+  },
+  "security_status": "CRITICAL_ISSUES"
+}

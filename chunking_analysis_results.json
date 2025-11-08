@@ -1,0 +1,18 @@
+{
+  "total_documents": 3,
+  "total_original_text": 245287,
+  "total_chunks": 56,
+  "avg_chunks_per_document": 18.666666666666668,
+  "avg_chunk_size": 4395.535714285715,
+  "text_coverage_percent": 100.35183275102226,
+  "chunk_size_stats": {
+    "min": 311,
+    "q25": 3736,
+    "median": 5110,
+    "q75": 5750,
+    "max": 5996
+  },
+  "chunking_strategy": "hierarchical_legal_structure_aware",
+  "chunk_size_target": 6000,
+  "overlap": 200
+}
