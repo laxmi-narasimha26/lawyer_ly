@@ -49,6 +49,9 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # Copy built application from builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
 
+# Create nginx pid directory
+RUN mkdir -p /var/run/nginx && chown -R nginx:nginx /var/run/nginx
+
 # Note: nginx:alpine image already has nginx user/group configured
 # nginx.conf will handle user switching to nginx user
 # Set proper permissions

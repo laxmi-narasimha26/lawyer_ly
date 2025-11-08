@@ -52,6 +52,7 @@ demos/
 !.kiro/specs/advanced-legal-kb-rag/**/*.md
 !DEPLOYMENT_GUIDE.md
 !DEPLOYMENT_STATUS.md
+!GOOGLE_CSE_SETUP_GUIDE.md
 
 # Build & IDE
 .DS_Store

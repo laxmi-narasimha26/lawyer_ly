@@ -142,6 +142,22 @@ class LegalKnowledgeSettings(BaseSettings):
         }
     )
 
+class GoogleSearchSettings(BaseSettings):
+    """Google Custom Search Engine configuration"""
+    enabled: bool = Field(False, env="GOOGLE_SEARCH_ENABLED")
+    api_key: Optional[str] = Field(None, env="GOOGLE_SEARCH_API_KEY")
+    search_engine_id: Optional[str] = Field(None, env="GOOGLE_SEARCH_ENGINE_ID")
+    max_results: int = Field(5, env="GOOGLE_SEARCH_MAX_RESULTS")
+    restrict_to_legal_sites: bool = Field(True, env="GOOGLE_SEARCH_RESTRICT_LEGAL")
+    auto_detect_temporal_queries: bool = Field(True, env="GOOGLE_SEARCH_AUTO_DETECT")
+    cache_results: bool = Field(True, env="GOOGLE_SEARCH_CACHE_RESULTS")
+    cache_ttl: int = Field(3600, env="GOOGLE_SEARCH_CACHE_TTL")
+
+    # Fallback settings
+    use_web_fallback: bool = Field(True, env="GOOGLE_SEARCH_USE_FALLBACK")
+    vector_confidence_threshold: float = Field(0.6, env="GOOGLE_SEARCH_VECTOR_THRESHOLD")
+    combine_with_vector: bool = Field(True, env="GOOGLE_SEARCH_COMBINE_VECTOR")
+
 class Settings(BaseSettings):
     """Main application settings"""
     
@@ -177,6 +193,7 @@ class Settings(BaseSettings):
     monitoring: MonitoringSettings = MonitoringSettings()
     conversation: ConversationSettings = ConversationSettings()
     legal_knowledge: LegalKnowledgeSettings = LegalKnowledgeSettings()
+    google_search: GoogleSearchSettings = GoogleSearchSettings()
     
     # Feature flags
     enable_document_upload: bool = Field(True, env="ENABLE_DOCUMENT_UPLOAD")
@@ -185,6 +202,7 @@ class Settings(BaseSettings):
     enable_conversation_history: bool = Field(True, env="ENABLE_CONVERSATION_HISTORY")
     enable_citation_verification: bool = Field(True, env="ENABLE_CITATION_VERIFICATION")
     enable_hallucination_detection: bool = Field(True, env="ENABLE_HALLUCINATION_DETECTION")
+    enable_web_search: bool = Field(False, env="ENABLE_WEB_SEARCH")
     
     def validate_environment(cls, v):
         allowed_envs = ["development", "staging", "production"]

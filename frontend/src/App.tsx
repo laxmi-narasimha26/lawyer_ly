@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import ChatInterface from './components/ChatInterface'
 import Sidebar from './components/Sidebar'
 import Header from './components/Header'
@@ -10,10 +10,27 @@ import { Loader2 } from 'lucide-react'
 
 function AppContent() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
-  const { isAuthenticated } = useAppStore()
+  const { isAuthenticated, setUser } = useAppStore()
   const { isLoading } = useAuth()
 
-  if (isLoading) {
+  // Check if auth is disabled (demo mode)
+  const authEnabled = import.meta.env.VITE_AUTH_ENABLED === 'true'
+  const demoMode = import.meta.env.VITE_DEMO_MODE === 'true'
+
+  // Auto-login for demo mode
+  React.useEffect(() => {
+    if (demoMode && !authEnabled && !isAuthenticated) {
+      setUser({
+        id: 'demo_user',
+        email: 'demo@example.com',
+        name: 'Demo User',
+        role: 'user'
+      })
+      localStorage.setItem('user_id', 'demo_user')
+    }
+  }, [demoMode, authEnabled, isAuthenticated, setUser])
+
+  if (isLoading && authEnabled) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -24,7 +41,7 @@ function AppContent() {
     )
   }
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated && authEnabled) {
     return <LoginPage />
   }
 

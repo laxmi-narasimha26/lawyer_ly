@@ -27,6 +27,8 @@ from api.health_local import router as health_router
 from api.auth_local import router as auth_router
 from services.conversation_manager import conversation_manager
 from services.local_openai_service import local_openai_service
+from services.google_search_service import google_search_service
+from config.settings import settings
 
 # Configure logging
 logging.basicConfig(
@@ -72,7 +74,7 @@ app.include_router(chat_router, prefix="/api/v1")
 async def startup_event():
     """Initialize services on startup"""
     logger.info("🚀 Starting Indian Legal AI Assistant (Local Mode)")
-    
+
     try:
         # Test OpenAI connection
         connection_test = await local_openai_service.test_connection()
@@ -80,10 +82,36 @@ async def startup_event():
             logger.info("✅ OpenAI API connection successful")
         else:
             logger.error(f"❌ OpenAI API connection failed: {connection_test.get('error')}")
-    
+
     except Exception as e:
         logger.error(f"❌ Error testing OpenAI connection: {e}")
-    
+
+    # Initialize Google Search Service
+    try:
+        if settings.enable_web_search and settings.google_search.enabled:
+            # Update Google search service with configuration
+            google_search_service.api_key = settings.google_search.api_key
+            google_search_service.search_engine_id = settings.google_search.search_engine_id
+            google_search_service.enabled = bool(
+                settings.google_search.api_key and
+                settings.google_search.search_engine_id
+            )
+
+            if google_search_service.enabled:
+                # Reinitialize with credentials
+                from googleapiclient.discovery import build
+                google_search_service.service = build(
+                    "customsearch", "v1",
+                    developerKey=google_search_service.api_key
+                )
+                logger.info(f"✅ Google Custom Search Engine enabled ({len(google_search_service.INDIAN_LEGAL_SITES)} legal sites configured)")
+            else:
+                logger.warning("⚠️ Google CSE credentials not configured - web search disabled")
+        else:
+            logger.info("ℹ️ Web search feature disabled in configuration")
+    except Exception as e:
+        logger.error(f"❌ Error initializing Google Search: {e}")
+
     logger.info("🎯 Local MVP ready for demonstration")
     logger.info("📍 API Documentation: http://localhost:8000/docs")
     logger.info("🧪 Health Check: http://localhost:8000/health")

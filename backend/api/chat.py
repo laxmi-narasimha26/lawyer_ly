@@ -14,6 +14,7 @@ import logging
 
 from services.conversation_manager import conversation_manager, MessageRole
 from core.simple_rag import rag_pipeline
+from services.enhanced_rag_service import enhanced_rag_service
 # from core.hallucination_detector import hallucination_detector
 from utils.monitoring import log_query_metrics
 from utils.exceptions import LegalAIException
@@ -95,8 +96,8 @@ async def _process_chat_request(
     if request.include_context:
         context_messages = await conversation_manager.get_conversation_context(conversation_id)
 
-    # Run RAG pipeline
-    rag_response = await rag_pipeline.process_query(
+    # Run Enhanced RAG pipeline (with web search if enabled)
+    rag_response = await enhanced_rag_service.process_query(
         query=request.message,
         user_id=request.user_id,
         mode=request.mode,
