@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Loader2, AlertCircle, CheckCircle, Send } from 'lucide-react'
 import { useAuth } from './AuthProvider'
-import Galaxy from './Galaxy'
+import Beams from './Beams'
 
 const FinalLandingPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -68,30 +68,29 @@ const FinalLandingPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden" style={{ background: '#0a0a1a' }}>
-      {/* Galaxy Background */}
+    <div className="min-h-screen relative overflow-hidden bg-black">
+      {/* Beams Background */}
       <div className="absolute inset-0 overflow-hidden">
-        <Galaxy
-          mouseInteraction={true}
-          mouseRepulsion={true}
-          glowIntensity={0.5}
-          saturation={1.5}
-          hueShift={240}
-          density={1.2}
-          rotationSpeed={0.05}
-          twinkleIntensity={0.5}
-          transparent={false}
+        <Beams
+          beamWidth={1.8}
+          beamHeight={25}
+          beamNumber={32}
+          lightColor="#ffffff"
+          speed={8.8}
+          noiseIntensity={2.6}
+          scale={0.13}
+          rotation={13}
         />
       </div>
 
       {/* Gradient Overlay for readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/50"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/80"></div>
 
       {/* Header */}
       <header className="relative z-10 px-6 py-4 flex items-center justify-between backdrop-blur-sm bg-white/5">
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
-            <span className="text-white text-lg font-bold">⚖</span>
+          <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
+            <span className="text-black text-lg font-bold">⚖</span>
           </div>
           <span className="text-xl font-bold text-white">Lawyer.ly</span>
         </div>
@@ -105,15 +104,15 @@ const FinalLandingPage: React.FC = () => {
         </nav>
 
         <div className="flex items-center space-x-4">
-          <button 
+          <button
             onClick={() => { setShowAuthModal(true); setAuthMode('signin'); }}
             className="text-gray-200 hover:text-white font-medium"
           >
             Contact sales
           </button>
-          <button 
+          <button
             onClick={() => { setShowAuthModal(true); setAuthMode('signup'); }}
-            className="bg-orange-500 text-white px-6 py-2 rounded-lg font-medium hover:bg-orange-600 transition-colors"
+            className="bg-white text-black px-6 py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors"
           >
             Try Lawyer.ly
           </button>
@@ -140,12 +139,12 @@ const FinalLandingPage: React.FC = () => {
                 <input
                   type="text"
                   placeholder="How can I help you today?"
-                  className="flex-1 text-lg outline-none bg-transparent"
+                  className="flex-1 text-lg outline-none bg-transparent text-black"
                   onFocus={() => setShowAuthModal(true)}
                 />
-                <button 
+                <button
                   onClick={() => setShowAuthModal(true)}
-                  className="bg-orange-500 hover:bg-orange-600 text-white p-3 rounded-xl transition-colors shadow-lg"
+                  className="bg-black hover:bg-gray-800 text-white p-3 rounded-xl transition-colors shadow-lg"
                 >
                   <Send className="w-5 h-5" />
                 </button>
@@ -170,28 +169,28 @@ const FinalLandingPage: React.FC = () => {
             {/* Features */}
             <div className="space-y-4">
               <div className="flex items-start space-x-3 bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/10">
-                <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-white text-sm">✓</span>
+                <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <span className="text-black text-sm">✓</span>
                 </div>
                 <div>
                   <h3 className="font-semibold text-white">AI-Powered Legal Research</h3>
                   <p className="text-gray-300">Access comprehensive Indian law database with intelligent search</p>
                 </div>
               </div>
-              
+
               <div className="flex items-start space-x-3 bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/10">
-                <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-white text-sm">✓</span>
+                <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <span className="text-black text-sm">✓</span>
                 </div>
                 <div>
                   <h3 className="font-semibold text-white">Document Analysis & Drafting</h3>
                   <p className="text-gray-300">Generate legal documents and analyze contracts efficiently</p>
                 </div>
               </div>
-              
+
               <div className="flex items-start space-x-3 bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/10">
-                <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-white text-sm">✓</span>
+                <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <span className="text-black text-sm">✓</span>
                 </div>
                 <div>
                   <h3 className="font-semibold text-white">Case Law & Precedents</h3>
@@ -249,7 +248,7 @@ const FinalLandingPage: React.FC = () => {
                   placeholder="Username"
                   value={formData.username}
                   onChange={(e) => setFormData({...formData, username: e.target.value})}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none"
                   required={authMode === 'signup'}
                 />
               )}
@@ -259,7 +258,7 @@ const FinalLandingPage: React.FC = () => {
                 placeholder="Email"
                 value={formData.email}
                 onChange={(e) => setFormData({...formData, email: e.target.value})}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none"
                 required
               />
 
@@ -268,14 +267,14 @@ const FinalLandingPage: React.FC = () => {
                 placeholder="Password"
                 value={formData.password}
                 onChange={(e) => setFormData({...formData, password: e.target.value})}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none"
                 required
               />
 
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
               >
                 {isLoading ? (
                   <>
