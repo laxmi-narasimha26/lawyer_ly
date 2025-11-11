@@ -1,29 +1,43 @@
 import React, { useState } from 'react'
 import { Scale, Loader2, AlertCircle, Shield, Users, Zap } from 'lucide-react'
 import { useAuth } from './AuthProvider'
+import Galaxy from './Galaxy'
 
 const LoginPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [isSignup, setIsSignup] = useState(false)
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: ''
+  })
   const { login } = useAuth()
 
-  const handleAzureLogin = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
     setIsLoading(true)
     setError(null)
 
     try {
-      // In a real implementation, this would redirect to Azure AD
-      // For now, we'll simulate the login process
+      const { authApi } = await import('../services/api')
       
-      // This would typically be handled by Azure AD SDK
-      // const token = await acquireTokenSilent() or acquireTokenPopup()
-      
-      // Simulate Azure AD login
-      const mockToken = 'mock-azure-ad-token-' + Date.now()
-      await login(mockToken)
+      if (isSignup) {
+        // Register new user
+        const response = await authApi.register(formData.username, formData.email, formData.password)
+        localStorage.setItem('auth_token', response.access_token)
+        localStorage.setItem('user_id', response.user.id)
+        await login(response.access_token)
+      } else {
+        // Login existing user
+        const response = await authApi.login(formData.email, formData.password)
+        localStorage.setItem('auth_token', response.access_token)
+        localStorage.setItem('user_id', response.user.id)
+        await login(response.access_token)
+      }
       
     } catch (error: any) {
-      setError(error.response?.data?.message || 'Login failed. Please try again.')
+      setError(error.response?.data?.detail || (isSignup ? 'Signup failed. Please try again.' : 'Login failed. Please check your credentials.'))
     } finally {
       setIsLoading(false)
     }
@@ -34,34 +48,53 @@ const LoginPage: React.FC = () => {
     setError(null)
 
     try {
-      // Create a guest session
-      const guestToken = 'guest-token-' + Date.now()
-      await login(guestToken)
+      // Use demo credentials
+      const { authApi } = await import('../services/api')
+      const response = await authApi.register('guest_' + Date.now(), 'guest_' + Date.now() + '@lawyer.ly', 'guest123')
+      localStorage.setItem('auth_token', response.access_token)
+      localStorage.setItem('user_id', response.user.id)
+      await login(response.access_token)
     } catch (error: any) {
-      setError(error.response?.data?.message || 'Guest login failed. Please try again.')
+      setError(error.response?.data?.detail || 'Guest login failed. Please try again.')
     } finally {
       setIsLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen relative flex items-center justify-center p-4">
+      {/* Galaxy Background */}
+      <div className="absolute inset-0 z-0">
+        <Galaxy
+          mouseRepulsion={true}
+          mouseInteraction={true}
+          density={1.5}
+          glowIntensity={0.5}
+          saturation={0.6}
+          hueShift={240}
+          twinkleIntensity={0.4}
+          rotationSpeed={0.05}
+          transparent={false}
+        />
+      </div>
+      
+      {/* Content */}
+      <div className="max-w-md w-full space-y-8 relative z-10">
         {/* Header */}
         <div className="text-center">
-          <div className="mx-auto h-16 w-16 bg-blue-600 rounded-full flex items-center justify-center">
+          <div className="mx-auto h-16 w-16 bg-blue-600 rounded-full flex items-center justify-center shadow-lg">
             <Scale className="h-8 w-8 text-white" />
           </div>
-          <h2 className="mt-6 text-3xl font-bold text-gray-900">
+          <h2 className="mt-6 text-3xl font-bold text-white drop-shadow-lg">
             Indian Legal AI Assistant
           </h2>
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="mt-2 text-sm text-gray-200 drop-shadow">
             Your intelligent legal research companion
           </p>
         </div>
 
         {/* Features */}
-        <div className="bg-white rounded-lg shadow-md p-6 space-y-4">
+        <div className="bg-white/90 backdrop-blur-md rounded-lg shadow-xl p-6 space-y-4 border border-white/20">
           <h3 className="text-lg font-semibold text-gray-900 text-center mb-4">
             What you can do:
           </h3>
@@ -97,8 +130,23 @@ const LoginPage: React.FC = () => {
         </div>
 
         {/* Login Form */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="space-y-4">
+        <div className="bg-white/90 backdrop-blur-md rounded-lg shadow-xl p-6 border border-white/20">
+          <div className="mb-4 flex justify-center space-x-4">
+            <button
+              onClick={() => setIsSignup(false)}
+              className={`px-4 py-2 text-sm font-medium rounded-md ${!isSignup ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'}`}
+            >
+              Login
+            </button>
+            <button
+              onClick={() => setIsSignup(true)}
+              className={`px-4 py-2 text-sm font-medium rounded-md ${isSignup ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'}`}
+            >
+              Sign Up
+            </button>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
               <div className="bg-red-50 border border-red-200 rounded-md p-3">
                 <div className="flex">
@@ -110,20 +158,59 @@ const LoginPage: React.FC = () => {
               </div>
             )}
 
-            {/* Azure AD Login */}
+            {isSignup && (
+              <div>
+                <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+                  Username
+                </label>
+                <input
+                  type="text"
+                  id="username"
+                  value={formData.username}
+                  onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  required={isSignup}
+                />
+              </div>
+            )}
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                required
+              />
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                required
+              />
+            </div>
+
             <button
-              onClick={handleAzureLogin}
+              type="submit"
               disabled={isLoading}
               className="w-full flex justify-center items-center px-4 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin mr-2" />
-              ) : (
-                <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M11.4 24H0V12.6h11.4V24zM24 24H12.6V12.6H24V24zM11.4 11.4H0V0h11.4v11.4zM24 11.4H12.6V0H24v11.4z"/>
-                </svg>
-              )}
-              Sign in with Microsoft
+              ) : null}
+              {isSignup ? 'Create Account' : 'Sign In'}
             </button>
 
             <div className="relative">
@@ -137,6 +224,7 @@ const LoginPage: React.FC = () => {
 
             {/* Guest Login */}
             <button
+              type="button"
               onClick={handleGuestLogin}
               disabled={isLoading}
               className="w-full flex justify-center items-center px-4 py-3 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -148,7 +236,7 @@ const LoginPage: React.FC = () => {
               )}
               Continue as Guest
             </button>
-          </div>
+          </form>
 
           <div className="mt-6 text-center">
             <p className="text-xs text-gray-500">
@@ -165,7 +253,7 @@ const LoginPage: React.FC = () => {
         </div>
 
         {/* Security Notice */}
-        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+        <div className="bg-green-50/90 backdrop-blur-md border border-green-200 rounded-lg p-4 shadow-lg">
           <div className="flex">
             <Shield className="h-5 w-5 text-green-400" />
             <div className="ml-3">
@@ -182,7 +270,7 @@ const LoginPage: React.FC = () => {
         </div>
 
         {/* Footer */}
-        <div className="text-center text-xs text-gray-500">
+        <div className="text-center text-xs text-gray-200 drop-shadow">
           <p>© 2024 Indian Legal AI Assistant. All rights reserved.</p>
         </div>
       </div>

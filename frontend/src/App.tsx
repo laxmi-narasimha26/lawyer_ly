@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import ChatInterface from './components/ChatInterface'
 import Sidebar from './components/Sidebar'
 import Header from './components/Header'
-import LoginPage from './components/LoginPage'
+import FinalLandingPage from './components/FinalLandingPage'
 import CitationViewer from './components/CitationViewer'
 import { AuthProvider, useAuth } from './components/AuthProvider'
 import { useAppStore } from './store/appStore'
@@ -42,7 +42,7 @@ function AppContent() {
   }
 
   if (!isAuthenticated && authEnabled) {
-    return <LoginPage />
+    return <FinalLandingPage />
   }
 
   return (

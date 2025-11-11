@@ -119,7 +119,7 @@ export const useAppStore = create<AppState>()(
       // Chat actions
       createConversation: () => {
         const newConversation: Conversation = {
-          id: crypto.randomUUID(),
+          id: `conv_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
           title: 'New Conversation',
           messages: [],
           createdAt: new Date(),
@@ -136,7 +136,7 @@ export const useAppStore = create<AppState>()(
       addMessage: (messageData) => {
         const message: Message = {
           ...messageData,
-          id: crypto.randomUUID(),
+          id: `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
           timestamp: new Date()
         }
         
@@ -144,7 +144,7 @@ export const useAppStore = create<AppState>()(
           if (!state.currentConversation) {
             // Create new conversation if none exists
             const newConversation: Conversation = {
-              id: crypto.randomUUID(),
+              id: `conv_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
               title: messageData.type === 'user' ? messageData.content.slice(0, 50) + '...' : 'New Conversation',
               messages: [message],
               createdAt: new Date(),
