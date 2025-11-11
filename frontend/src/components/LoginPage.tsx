@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Scale, Loader2, AlertCircle, Shield, Users, Zap } from 'lucide-react'
 import { useAuth } from './AuthProvider'
-import Galaxy from './Galaxy'
+import Beams from './Beams'
 
 const LoginPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -63,18 +63,17 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen relative flex items-center justify-center p-4">
-      {/* Galaxy Background */}
+      {/* Beams Background */}
       <div className="absolute inset-0 z-0">
-        <Galaxy
-          mouseRepulsion={true}
-          mouseInteraction={true}
-          density={1.5}
-          glowIntensity={0.5}
-          saturation={0.6}
-          hueShift={240}
-          twinkleIntensity={0.4}
-          rotationSpeed={0.05}
-          transparent={false}
+        <Beams
+          beamWidth={1.8}
+          beamHeight={25}
+          beamNumber={32}
+          lightColor="#ffffff"
+          speed={8.8}
+          noiseIntensity={2.6}
+          scale={0.13}
+          rotation={13}
         />
       </div>
       
