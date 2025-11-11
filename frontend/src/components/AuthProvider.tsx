@@ -54,7 +54,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       setIsLoading(true)
       localStorage.setItem('auth_token', token)
-      const response = await authApi.login(token)
+      // Token is already set, just validate and get user info
+      const response = await authApi.getProfile()
       setUser(response.user)
       // Store user_id for API calls
       localStorage.setItem('user_id', response.user?.id || 'demo_user')
