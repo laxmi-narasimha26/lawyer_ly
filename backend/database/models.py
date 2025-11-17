@@ -47,6 +47,32 @@ class QueryMode(str, enum.Enum):
     DRAFTING = "drafting"
     SUMMARIZATION = "summarization"
     ANALYSIS = "analysis"
+    DEEP_RESEARCH = "deep_research"
+    MULTI_QUERY_ANALYSIS = "multi_query_analysis"
+
+class LegalPersonaType(str, enum.Enum):
+    """Legal AI persona types"""
+    GENERAL = "general"
+    LITIGATION = "litigation"
+    CORPORATE = "corporate"
+    INTELLECTUAL_PROPERTY = "intellectual_property"
+    TAX = "tax"
+    CRIMINAL = "criminal"
+    FAMILY = "family"
+    IMMIGRATION = "immigration"
+    REAL_ESTATE = "real_estate"
+    LABOR_EMPLOYMENT = "labor_employment"
+    ENVIRONMENTAL = "environmental"
+    BANKING_FINANCE = "banking_finance"
+    CONSUMER_PROTECTION = "consumer_protection"
+    CONSTITUTIONAL = "constitutional"
+    ARBITRATION_ADR = "arbitration_adr"
+    CYBERSECURITY_DATA = "cybersecurity_data"
+    MERGERS_ACQUISITIONS = "mergers_acquisitions"
+    SECURITIES = "securities"
+    INSOLVENCY_BANKRUPTCY = "insolvency_bankruptcy"
+    HEALTHCARE = "healthcare"
+    MARITIME = "maritime"
 
 class UserRole(str, enum.Enum):
     """User role enumeration"""
@@ -229,6 +255,7 @@ class Conversation(Base):
     # Conversation metadata
     title = Column(String(500), nullable=True)  # Auto-generated or user-provided
     mode = Column(SQLEnum(QueryMode), default=QueryMode.QA, nullable=False)
+    persona_type = Column(SQLEnum(LegalPersonaType), default=LegalPersonaType.GENERAL, nullable=True)
     
     # Session information
     is_active = Column(Boolean, default=True, nullable=False)
@@ -263,6 +290,7 @@ class Query(Base):
     query_text = Column(Text, nullable=False)
     query_hash = Column(String(64), nullable=False, index=True)  # For caching
     mode = Column(SQLEnum(QueryMode), nullable=False)
+    persona_type = Column(SQLEnum(LegalPersonaType), default=LegalPersonaType.GENERAL, nullable=True)
     
     # Response content
     response_text = Column(Text, nullable=True)
