@@ -59,6 +59,14 @@ demos/
 .vscode/
 .idea/
 
+# Security & keys
+*.pem
+*.key
+*.pfx
+*.p12
+infrastructure/terraform/aws/.terraform/
+deploy_*/
+
 # Data/output
 out/
 data/**
