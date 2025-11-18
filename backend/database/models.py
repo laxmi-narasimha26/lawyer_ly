@@ -47,6 +47,8 @@ class QueryMode(str, enum.Enum):
     DRAFTING = "drafting"
     SUMMARIZATION = "summarization"
     ANALYSIS = "analysis"
+    DEEP_RESEARCH = "deep_research"  # Multi-source deep research with citations
+    MULTI_QUERY = "multi_query"  # Analyze multiple related queries simultaneously
 
 class UserRole(str, enum.Enum):
     """User role enumeration"""
